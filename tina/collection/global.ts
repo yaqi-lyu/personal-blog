@@ -24,6 +24,15 @@ const Global: Collection = {
           name: "name",
         },
         {
+          type: "object",
+          label: "Theme",
+          name: "theme",
+          fields: [
+            { type: "string", label: "Background (CSS color)", name: "background" },
+            { type: "string", label: "Foreground (CSS color)", name: "foreground" },
+          ],
+        },
+        {
           type: "string",
           label: "Color",
           name: "color",
@@ -66,6 +75,15 @@ const Global: Collection = {
       label: "Footer",
       name: "footer",
       fields: [
+        {
+          type: "object",
+          label: "Theme",
+          name: "theme",
+          fields: [
+            { type: "string", label: "Background (CSS color)", name: "background" },
+            { type: "string", label: "Foreground (CSS color)", name: "foreground" },
+          ],
+        },
         {
           type: "object",
           label: "Social Links",

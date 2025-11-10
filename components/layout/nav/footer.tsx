@@ -7,9 +7,16 @@ import { useLayout } from "../layout-context";
 export const Footer = () => {
   const { globalSettings } = useLayout();
   const { header, footer } = globalSettings!;
+  const footerTheme = (footer?.theme || {}) as { background?: string; foreground?: string };
 
   return (
-    <footer className="border-b bg-white pt-20 dark:bg-transparent">
+    <footer
+      className="border-b bg-background pt-20 text-foreground"
+      style={{
+        ...(footerTheme.background ? { ['--background' as any]: footerTheme.background } : {}),
+        ...(footerTheme.foreground ? { ['--foreground' as any]: footerTheme.foreground } : {}),
+      }}
+    >
       <div className="mx-auto max-w-5xl px-6">
         <div className="mt-12 flex flex-wrap items-center gap-6 border-t py-6 flex-col md:flex-row md:justify-between">
 

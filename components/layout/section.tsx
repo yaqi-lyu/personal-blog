@@ -7,10 +7,19 @@ interface SectionProps extends React.HTMLProps<HTMLElement> {
 }
 
 export const Section: React.FC<SectionProps> = ({ className, children, background, ...props }) => {
+  const bgClass = background || "bg-default";
+  const isDark =
+    typeof bgClass === 'string' &&
+    (bgClass.includes('bg-black') || bgClass.includes('bg-zinc-900') || bgClass.includes('bg-neutral-900'));
+
+  const localVars: React.CSSProperties = {
+    ...(isDark ? { ['--foreground' as any]: 'oklch(0.985 0 0)' } : { ['--foreground' as any]: 'oklch(0.145 0 0)' }),
+  };
+
   return (
-    <div className={background || "bg-default"}>
+    <div className={bgClass} data-tone={isDark ? 'dark' : 'light'} style={localVars}>
       <section
-        className={cn("py-12 mx-auto max-w-7xl px-6", className)}
+        className={cn("py-12 mx-auto max-w-7xl px-6 text-foreground", className)}
         {...props}
       >
         {children}

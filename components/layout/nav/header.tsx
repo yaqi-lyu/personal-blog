@@ -11,11 +11,19 @@ export const Header = () => {
   const header = globalSettings!.header!;
 
   const [menuState, setMenuState] = React.useState(false)
+  const headerTheme = header?.theme || {};
+
   return (
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="bg-background/50 fixed z-20 w-full border-b backdrop-blur-3xl">
+        className="bg-background/50 fixed z-20 w-full border-b backdrop-blur-3xl text-foreground"
+        style={{
+          // locally scope background/foreground so header can differ from page
+          // values should be CSS colors; fall back to inherited vars
+          ...(headerTheme.background ? { ['--background' as any]: headerTheme.background } : {}),
+          ...(headerTheme.foreground ? { ['--foreground' as any]: headerTheme.foreground } : {}),
+        }}>
         <div className="mx-auto max-w-6xl px-6 transition-all duration-300">
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
             <div className="flex w-full items-center justify-between gap-12">
