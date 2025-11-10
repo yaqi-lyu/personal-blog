@@ -7,6 +7,10 @@ import { videoBlockSchema } from '@/components/blocks/video';
 import { calloutBlockSchema } from '@/components/blocks/callout';
 import { statsBlockSchema } from '@/components/blocks/stats';
 import { ctaBlockSchema } from '@/components/blocks/call-to-action';
+import { featuredBlockSchema } from '@/components/blocks/featured-post';
+import { recentBlockSchema } from '@/components/blocks/recent-posts';
+import { categoriesBlockSchema } from '@/components/blocks/categories-strip';
+import { newsletterBlockSchema } from '@/components/blocks/newsletter-signup';
 
 const Page: Collection = {
   label: 'Pages',
@@ -40,6 +44,10 @@ const Page: Collection = {
         contentBlockSchema,
         testimonialBlockSchema,
         videoBlockSchema,
+        featuredBlockSchema,
+        recentBlockSchema,
+        categoriesBlockSchema,
+        newsletterBlockSchema,
       ],
     },
   ],

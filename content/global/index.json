@@ -1,11 +1,11 @@
 {
   "header": {
     "icon": {
-      "name": "Tina",
-      "color": "orange",
+      "name": "FaTools",
+      "color": "red",
       "style": "float"
     },
-    "name": "Tina Starter",
+    "name": "YakShaver",
     "color": "default",
     "nav": [
       {

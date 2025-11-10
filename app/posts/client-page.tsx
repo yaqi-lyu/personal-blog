@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -18,7 +18,9 @@ interface ClientPostProps {
 }
 
 export default function PostsClientPage(props: ClientPostProps) {
-  const posts = props.data?.postConnection.edges!.map((postData) => {
+  const [query, setQuery] = useState('');
+
+  const posts = useMemo(() => props.data?.postConnection.edges!.map((postData) => {
     const post = postData!.node!;
     const date = new Date(post.date!);
     let formattedDate = '';
@@ -39,7 +41,18 @@ export default function PostsClientPage(props: ClientPostProps) {
         avatar: post.author?.avatar,
       }
     }
-  });
+  }) || [], [props.data]);
+
+  const filtered = useMemo(() => {
+    if (!query.trim()) return posts;
+    const q = query.toLowerCase();
+    return posts.filter(p =>
+      p.title?.toLowerCase().includes(q) ||
+      p.tags?.some(t => t?.toLowerCase().includes(q)) ||
+      // naive excerpt search: stringify Tina rich text nodes
+      JSON.stringify(p.excerpt).toLowerCase().includes(q)
+    );
+  }, [posts, query]);
 
   return (
     <ErrorBoundary>
@@ -47,15 +60,25 @@ export default function PostsClientPage(props: ClientPostProps) {
         <div className="container flex flex-col items-center gap-16">
           <div className="text-center">
             <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl">
-              Blog Posts
+              YakShaver Blog
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground md:text-lg">
-              Discover the latest insights and tutorials about modern web development, UI design, and component-driven architecture.
+              Practical engineering notes, patterns, and templates—so you can ship faster with fewer yaks.
             </p>
           </div>
 
+          <div className="w-full max-w-3xl">
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search posts by title, tag, or excerpt..."
+              className="w-full rounded-md border bg-background px-4 py-2 text-base outline-none focus:ring-2 focus:ring-ring"
+              aria-label="Search posts"
+            />
+          </div>
+
           <div className="grid gap-y-10 sm:grid-cols-12 sm:gap-y-12 md:gap-y-16 lg:gap-y-20">
-            {posts.map((post) => (
+            {filtered.map((post) => (
               <Card
                 key={post.id}
                 className="order-last border-0 bg-transparent shadow-none sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2"

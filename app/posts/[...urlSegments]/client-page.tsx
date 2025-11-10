@@ -9,6 +9,7 @@ import { useLayout } from '@/components/layout/layout-context';
 import { Section } from '@/components/layout/section';
 import { components } from '@/components/mdx-components';
 import ErrorBoundary from '@/components/error-boundary';
+import Giscus from '@/components/giscus';
 
 const titleColorClasses = {
   blue: 'from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500',
@@ -111,6 +112,21 @@ export default function PostClientPage(props: ClientPostProps) {
             components={{
               ...components,
             }}
+          />
+        </div>
+        <div className='mt-16'>
+          <Giscus
+            repo={process.env.NEXT_PUBLIC_GISCUS_REPO as string}
+            repoId={process.env.NEXT_PUBLIC_GISCUS_REPO_ID as string}
+            category={process.env.NEXT_PUBLIC_GISCUS_CATEGORY as string}
+            categoryId={process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID as string}
+            mapping='pathname'
+            reactionsEnabled='1'
+            emitMetadata='0'
+            inputPosition='bottom'
+            theme='preferred_color_scheme'
+            lang='en'
+            loading='lazy'
           />
         </div>
       </Section>

@@ -2,6 +2,7 @@ import React from "react";
 import client from "@/tina/__generated__/client";
 import Layout from "@/components/layout/layout";
 import ClientPage from "./[...urlSegments]/client-page";
+// home extensions are rendered inside ClientPage to keep block-based style
 
 export const revalidate = 300;
 
@@ -10,9 +11,15 @@ export default async function Home() {
     relativePath: `home.mdx`,
   });
 
+  // Fetch posts (first 4 for featured + recent)
+  const posts = await client.queries.postConnection({
+    sort: 'date',
+    first: 4,
+  });
+
   return (
     <Layout rawPageData={data}>
-      <ClientPage {...data} />
+      <ClientPage {...data} extraPosts={posts.data} />
     </Layout>
   );
 }
