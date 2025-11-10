@@ -13,6 +13,11 @@ import { RecentPosts } from "./recent-posts";
 import { CategoriesStrip } from "./categories-strip";
 import { NewsletterSignup } from "./newsletter-signup";
 
+type ExtendedBlock = (PageBlocks & { __typename?: PageBlocks['__typename'] }) | {
+  __typename: 'PageBlocksFeatured' | 'PageBlocksRecent' | 'PageBlocksCategories' | 'PageBlocksNewsletter';
+  background?: string;
+};
+
 export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPosts?: PostConnectionQuery }) => {
   if (!props.blocks) return null;
   return (
@@ -20,7 +25,7 @@ export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPos
       {props.blocks.map(function (block, i) {
         return (
           <div key={i} data-tina-field={tinaField(block)}>
-            <Block {...block} extraPosts={props.extraPosts} />
+            <Block {...(block as ExtendedBlock)} extraPosts={props.extraPosts} />
           </div>
         );
       })}
@@ -28,7 +33,7 @@ export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPos
   );
 };
 
-const Block = (block: PageBlocks & { extraPosts?: PostConnectionQuery }) => {
+const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery }) => {
   switch (block.__typename) {
     case "PageBlocksVideo":
       return <Video data={block} />;
@@ -47,13 +52,13 @@ const Block = (block: PageBlocks & { extraPosts?: PostConnectionQuery }) => {
     case "PageBlocksCta":
       return <CallToAction data={block} />;
     case "PageBlocksFeatured":
-      return block.extraPosts ? <FeaturedPost data={block.extraPosts} /> : null;
+      return block.extraPosts ? <FeaturedPost data={block} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksRecent":
-      return block.extraPosts ? <RecentPosts data={block.extraPosts} /> : null;
+      return block.extraPosts ? <RecentPosts data={block} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksCategories":
-      return block.extraPosts ? <CategoriesStrip data={block.extraPosts} /> : null;
+      return block.extraPosts ? <CategoriesStrip data={block} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksNewsletter":
-      return <NewsletterSignup />;
+      return <NewsletterSignup data={block} />;
     default:
       return null;
   }

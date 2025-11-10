@@ -8,9 +8,11 @@ import { PostConnectionQuery } from '@/tina/__generated__/types';
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
 
-export const FeaturedPost = ({ data }: { data: PostConnectionQuery }) => {
+type FeaturedBlockData = { background?: string };
+
+export const FeaturedPost = ({ data, extraPosts }: { data: FeaturedBlockData; extraPosts?: PostConnectionQuery }) => {
   const post = useMemo(() => {
-    const node = data?.postConnection?.edges?.[0]?.node;
+    const node = extraPosts?.postConnection?.edges?.[0]?.node;
     if (!node) return null;
     const date = new Date(node.date!);
     const published = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
@@ -29,7 +31,7 @@ export const FeaturedPost = ({ data }: { data: PostConnectionQuery }) => {
   if (!post) return null;
 
   return (
-    <Section>
+    <Section background={data.background as any}>
       <div className="container my-10">
         <h2 className="mb-4 text-2xl font-semibold">Featured</h2>
         <Card className="p-0 overflow-hidden">

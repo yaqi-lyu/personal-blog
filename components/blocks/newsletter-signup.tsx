@@ -5,7 +5,9 @@ import { Card } from '../ui/card';
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
 
-export const NewsletterSignup = () => {
+type NewsletterBlockData = { background?: string };
+
+export const NewsletterSignup = ({ data }: { data: NewsletterBlockData }) => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -20,7 +22,7 @@ export const NewsletterSignup = () => {
   };
 
   return (
-    <Section>
+    <Section background={data.background as any}>
       <div className="container my-12">
         <Card className="p-6 lg:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

@@ -6,10 +6,12 @@ import { PostConnectionQuery } from '@/tina/__generated__/types';
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
 
-export const CategoriesStrip = ({ data }: { data: PostConnectionQuery }) => {
+type CategoriesBlockData = { background?: string };
+
+export const CategoriesStrip = ({ data, extraPosts }: { data: CategoriesBlockData; extraPosts?: PostConnectionQuery }) => {
   const tags = useMemo(() => {
     const set = new Set<string>();
-    (data?.postConnection?.edges || []).forEach(edge => {
+    (extraPosts?.postConnection?.edges || []).forEach(edge => {
       edge?.node?.tags?.forEach(t => {
         const name = t?.tag?.name;
         if (name) set.add(name);
@@ -21,7 +23,7 @@ export const CategoriesStrip = ({ data }: { data: PostConnectionQuery }) => {
   if (!tags.length) return null;
 
   return (
-    <Section>
+    <Section background={data.background as any}>
       <div className="container my-8">
         <h2 className="mb-4 text-xl font-semibold">Categories</h2>
         <div className="flex flex-wrap gap-2">

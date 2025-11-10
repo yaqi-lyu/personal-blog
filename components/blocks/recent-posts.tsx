@@ -8,9 +8,11 @@ import { PostConnectionQuery } from '@/tina/__generated__/types';
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
 
-export const RecentPosts = ({ data }: { data: PostConnectionQuery }) => {
+type RecentBlockData = { background?: string };
+
+export const RecentPosts = ({ data, extraPosts }: { data: RecentBlockData; extraPosts?: PostConnectionQuery }) => {
   const posts = useMemo(() => {
-    const edges = data?.postConnection?.edges || [];
+    const edges = extraPosts?.postConnection?.edges || [];
     return edges
       .map((edge) => edge?.node)
       .filter(Boolean)
@@ -35,7 +37,7 @@ export const RecentPosts = ({ data }: { data: PostConnectionQuery }) => {
   if (!posts?.length) return null;
 
   return (
-    <Section>
+    <Section background={data.background as any}>
       <div className="container my-8">
         <h2 className="mb-6 text-2xl font-semibold">Recent Articles</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
