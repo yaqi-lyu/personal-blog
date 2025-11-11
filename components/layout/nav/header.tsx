@@ -23,7 +23,7 @@ export const Header = () => {
     <header>
       <nav
         data-state={menuState && 'active'}
-        className={`${bgClass} fixed z-20 w-full border-b border-white/10 text-foreground`}
+        className={`${bgClass} fixed z-20 w-full border-b border-transparent text-foreground`}
         style={{
           // locally scope background/foreground so header can differ from page
           // values should be CSS colors; fall back to inherited vars

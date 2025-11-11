@@ -341,13 +341,14 @@ export default function PostClientPage(props: ClientPostProps) {
                         <span suppressHydrationWarning>{related.readingTime} min read</span>
                       </div>
                       {related.tags?.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
                           {related.tags.map((tag: string) => (
                             <Link
                               key={tag}
                               href={`/posts?tag=${encodeURIComponent(tag)}`}
                               className="px-2 py-0.5 text-xs font-medium bg-red-950/40 border border-red-800/40 rounded text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300"
                               suppressHydrationWarning
+                              onClick={(e) => e.stopPropagation()}
                             >
                               {tag}
                             </Link>
