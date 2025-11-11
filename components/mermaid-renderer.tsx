@@ -42,7 +42,7 @@ export default function MermaidElement({ value }: { value: string }) {
   });
 
   return (
-    <div contentEditable={false} className="overflow-x-auto py-4 px-4 bg-zinc-900/50 rounded-lg border-2 border-red-900/30">
+    <div contentEditable={false} className="overflow-x-auto py-4 px-4 bg-[#1a1a1a] rounded-lg border-2 border-red-900/40">
       <pre ref={ref} suppressHydrationWarning className="mermaid">
         {value}
       </pre>

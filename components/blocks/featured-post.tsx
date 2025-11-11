@@ -47,8 +47,8 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
           </p>
         )}
         <Card className="group relative border border-zinc-800/50 bg-zinc-950/90 backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-2xl hover:shadow-red-900/20">
-          {/* Subtle accent line */}
-          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-red-600/40 to-transparent" />
+          {/* Subtle accent line - visible on hover only */}
+          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-red-600/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
           
           <div className="grid lg:grid-cols-2 relative">
             <div className="p-8 lg:p-10 space-y-5 flex flex-col justify-center">
@@ -84,14 +84,14 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
             </div>
             
             {post.heroImg && (
-              <Link href={post.url} className="block relative overflow-hidden h-full min-h-[300px] lg:min-h-[400px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+              <Link href={post.url} className="relative overflow-hidden h-full min-h-[300px] lg:min-h-[400px] block">
                 <img 
                   src={post.heroImg} 
                   alt={post.title} 
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
                 />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
               </Link>
             )}
           </div>

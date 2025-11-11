@@ -127,7 +127,7 @@ export default function PostClientPage(props: ClientPostProps) {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#222222] dark:bg-gray-900">
         {/* Hero Section */}
         <Section>
           <div className="container max-w-6xl mx-auto px-4 pt-12 pb-8">
@@ -216,7 +216,7 @@ export default function PostClientPage(props: ClientPostProps) {
               {headings.length > 0 && (
                 <aside className="lg:col-span-3 hidden lg:block">
                   <div className="sticky top-24">
-                    <div className="p-5 bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg">
+                    <div className="p-5 bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg">
                       <div className="flex items-center gap-2 mb-4">
                         <BookOpen size={18} className="text-red-400" />
                         <h3 className="font-bold text-white">Table of Contents</h3>
@@ -272,20 +272,20 @@ export default function PostClientPage(props: ClientPostProps) {
                     prose-a:text-red-400 prose-a:no-underline hover:prose-a:text-red-300 hover:prose-a:underline prose-a:font-medium
                     prose-strong:text-white prose-strong:font-bold
                     prose-em:text-gray-100 prose-em:italic
-                    prose-code:text-red-300 prose-code:bg-zinc-900 prose-code:border prose-code:border-zinc-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-code:font-mono
-                    prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto
+                    prose-code:text-red-300 prose-code:bg-[#0a0a0a] prose-code:border prose-code:border-red-900/30 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-code:font-mono
+                    prose-pre:bg-[#0a0a0a] prose-pre:border prose-pre:border-red-900/30 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto
                     prose-pre:text-gray-200
-                    prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:bg-zinc-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:text-gray-200 prose-blockquote:italic prose-blockquote:not-italic:first-child:mt-0
+                    prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:bg-[#1a1a1a] prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:text-gray-200 prose-blockquote:italic prose-blockquote:not-italic:first-child:mt-0
                     prose-ul:text-gray-200
                     prose-ol:text-gray-200
                     prose-li:text-gray-200
                     prose-li:marker:text-red-500
-                    prose-img:rounded-lg prose-img:border prose-img:border-zinc-800 prose-img:shadow-lg prose-img:shadow-black/30
-                    prose-hr:border-zinc-800
+                    prose-img:rounded-lg prose-img:border prose-img:border-red-900/30 prose-img:shadow-lg prose-img:shadow-red-900/20
+                    prose-hr:border-red-900/30
                     prose-table:border-collapse
-                    prose-table:border prose-table:border-zinc-800
-                    prose-th:bg-zinc-900 prose-th:text-white prose-th:font-bold prose-th:border prose-th:border-zinc-800 prose-th:px-4 prose-th:py-2
-                    prose-td:border prose-td:border-zinc-800 prose-td:text-gray-200 prose-td:px-4 prose-td:py-2"
+                    prose-table:border prose-table:border-red-900/30
+                    prose-th:bg-[#0a0a0a] prose-th:text-white prose-th:font-bold prose-th:border prose-th:border-red-900/30 prose-th:px-4 prose-th:py-2
+                    prose-td:border prose-td:border-red-900/30 prose-td:text-gray-200 prose-td:px-4 prose-td:py-2"
                 >
                   <TinaMarkdown
                     content={post._body}
@@ -309,9 +309,9 @@ export default function PostClientPage(props: ClientPostProps) {
                   <Link
                     key={related.id}
                     href={related.url}
-                    className="group block overflow-hidden bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20"
+                    className="group block overflow-hidden bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/30"
                   >
-                    <div className="relative aspect-video mb-4 overflow-hidden rounded-t-lg bg-zinc-900">
+                    <div className="relative aspect-video mb-4 overflow-hidden rounded-t-lg bg-[#0a0a0a]">
                       {related.heroImg ? (
                         <Image
                           src={related.heroImg}
@@ -322,7 +322,7 @@ export default function PostClientPage(props: ClientPostProps) {
                           priority={false}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-zinc-900">
+                        <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
                           <svg className="w-12 h-12 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
@@ -343,15 +343,18 @@ export default function PostClientPage(props: ClientPostProps) {
                       {related.tags?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
                           {related.tags.map((tag: string) => (
-                            <Link
+                            <button
                               key={tag}
-                              href={`/posts?tag=${encodeURIComponent(tag)}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.location.href = `/posts?tag=${encodeURIComponent(tag)}`;
+                              }}
                               className="px-2 py-0.5 text-xs font-medium bg-red-950/40 border border-red-800/40 rounded text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300"
                               suppressHydrationWarning
-                              onClick={(e) => e.stopPropagation()}
                             >
                               {tag}
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       )}
@@ -366,7 +369,7 @@ export default function PostClientPage(props: ClientPostProps) {
         {/* Comments */}
         <Section>
           <div className="container max-w-6xl mx-auto px-4 py-16">
-            <div className="p-6 bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg">
+            <div className="p-6 bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg">
               <h2 className="text-2xl font-bold text-white mb-6">Comments</h2>
               <Giscus
                 repo={process.env.NEXT_PUBLIC_GISCUS_REPO as string}

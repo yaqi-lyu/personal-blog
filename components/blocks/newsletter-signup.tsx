@@ -24,9 +24,9 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
   return (
     <Section background={data.background as any}>
       <div className="container my-12">
-        <Card className="relative border border-zinc-800/50 bg-zinc-950/90 backdrop-blur-sm p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20">
+        <Card className="relative border border-red-900/20 bg-[#1a1a1a] backdrop-blur-sm p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/30">
           {/* Subtle accent line */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent opacity-0 hover:opacity-100 transition-opacity" />
           
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex-1">
@@ -50,7 +50,7 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={data.placeholder || 'you@example.com'}
-                className="flex-1 rounded-lg border border-zinc-700/50 bg-black/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-700/40 focus:ring-2 focus:ring-red-900/20"
+                className="flex-1 rounded-lg border border-red-900/30 bg-[#0a0a0a] px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-700/40 focus:ring-2 focus:ring-red-900/30"
                 aria-label="Email address"
                 data-tina-field={tinaField(data, 'placeholder')}
               />

@@ -69,7 +69,7 @@ export default function PostsClientPage(props: ClientPostProps) {
 
   return (
     <ErrorBoundary>
-      <Section>
+      <Section background="bg-black">
         <div className="container flex flex-col items-center gap-16">
           <div className="text-center">
             <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl text-white">
@@ -116,7 +116,12 @@ export default function PostsClientPage(props: ClientPostProps) {
             />
           </div>
 
-          <div className="grid gap-y-8 sm:grid-cols-12 sm:gap-y-10 md:gap-y-12 lg:gap-y-16">
+        </div>
+      </Section>
+
+      <Section background="bg-[#222222] dark:bg-gray-900">
+        <div className="container flex flex-col items-center gap-16">
+          <div className="grid gap-y-8 sm:grid-cols-12 sm:gap-y-10 md:gap-y-12 lg:gap-y-16 w-full">
             {filtered.map((post) => (
               <Card
                 key={post.id}
