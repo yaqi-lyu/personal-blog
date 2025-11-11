@@ -109,6 +109,7 @@ export default function PostClientPage(props: ClientPostProps) {
         const p = edge?.node;
         if (!p) return null;
         const postDate = new Date(p.date!);
+        const readingTime = Math.max(1, Math.round((JSON.stringify(p.excerpt ?? '').split(/\s+/).length || 200) / 200));
         return {
           id: p.id,
           title: p.title,
@@ -116,6 +117,9 @@ export default function PostClientPage(props: ClientPostProps) {
           heroImg: p.heroImg as string | undefined,
           excerpt: p.excerpt,
           date: isNaN(postDate.getTime()) ? '' : format(postDate, 'MMM dd, yyyy'),
+          author: p.author?.name || 'Anonymous',
+          readingTime,
+          tags: (p.tags || []).map(t => t?.tag?.name || '').filter(Boolean),
         };
       })
       .filter(Boolean);
@@ -188,13 +192,14 @@ export default function PostClientPage(props: ClientPostProps) {
             {/* Hero Image */}
             {post.heroImg && (
               <div data-tina-field={tinaField(post, 'heroImg')} className="relative w-full max-w-4xl mx-auto mb-12">
-                <div className="relative aspect-video overflow-hidden rounded-xl border-2 border-red-900/30 shadow-2xl shadow-red-900/20">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+                <div className="relative aspect-video overflow-hidden rounded-xl border border-zinc-800 shadow-2xl shadow-black/40">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10" />
                   <Image
                     priority={true}
                     src={post.heroImg}
                     alt={post.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 896px"
                     className="object-cover"
                   />
                 </div>
@@ -211,7 +216,7 @@ export default function PostClientPage(props: ClientPostProps) {
               {headings.length > 0 && (
                 <aside className="lg:col-span-3 hidden lg:block">
                   <div className="sticky top-24">
-                    <div className="p-5 bg-gradient-to-br from-zinc-950 to-red-950/10 border-2 border-red-900/30 rounded-lg">
+                    <div className="p-5 bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg">
                       <div className="flex items-center gap-2 mb-4">
                         <BookOpen size={18} className="text-red-400" />
                         <h3 className="font-bold text-white">Table of Contents</h3>
@@ -256,23 +261,31 @@ export default function PostClientPage(props: ClientPostProps) {
                   id="content"
                   data-tina-field={tinaField(post, '_body')} 
                   className="prose prose-invert prose-lg max-w-none
-                    prose-headings:text-white prose-headings:font-bold
-                    prose-h1:text-4xl prose-h1:mb-6 prose-h1:bg-gradient-to-r prose-h1:from-white prose-h1:to-red-400 prose-h1:bg-clip-text prose-h1:text-transparent
-                    prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:border-l-4 prose-h2:border-red-600 prose-h2:pl-4
-                    prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-red-400
-                    prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6
-                    prose-a:text-red-400 prose-a:no-underline hover:prose-a:text-red-300 hover:prose-a:underline
-                    prose-strong:text-white prose-strong:font-semibold
-                    prose-code:text-red-400 prose-code:bg-red-950/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-                    prose-pre:bg-zinc-950 prose-pre:border-2 prose-pre:border-red-900/30 prose-pre:rounded-lg
-                    prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:bg-red-950/20 prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:text-gray-300 prose-blockquote:italic
-                    prose-ul:text-gray-300 prose-ol:text-gray-300
-                    prose-li:marker:text-red-400
-                    prose-img:rounded-lg prose-img:border-2 prose-img:border-red-900/30 prose-img:shadow-lg
-                    prose-hr:border-red-900/30
-                    prose-table:border-2 prose-table:border-red-900/30
-                    prose-th:bg-red-950/30 prose-th:text-white prose-th:font-bold
-                    prose-td:border-red-900/20 prose-td:text-gray-300"
+                    prose-headings:font-bold prose-headings:text-white
+                    prose-h1:text-5xl prose-h1:mb-8 prose-h1:mt-0 prose-h1:text-white
+                    prose-h2:text-4xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-white prose-h2:border-l-4 prose-h2:border-red-600 prose-h2:pl-4
+                    prose-h3:text-3xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-white
+                    prose-h4:text-2xl prose-h4:mt-6 prose-h4:mb-3 prose-h4:text-white
+                    prose-h5:text-xl prose-h5:mt-4 prose-h5:mb-2 prose-h5:text-white
+                    prose-h6:text-lg prose-h6:mt-4 prose-h6:mb-2 prose-h6:text-white
+                    prose-p:text-gray-200 prose-p:leading-relaxed prose-p:mb-6
+                    prose-a:text-red-400 prose-a:no-underline hover:prose-a:text-red-300 hover:prose-a:underline prose-a:font-medium
+                    prose-strong:text-white prose-strong:font-bold
+                    prose-em:text-gray-100 prose-em:italic
+                    prose-code:text-red-300 prose-code:bg-zinc-900 prose-code:border prose-code:border-zinc-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-code:font-mono
+                    prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto
+                    prose-pre:text-gray-200
+                    prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:bg-zinc-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:text-gray-200 prose-blockquote:italic prose-blockquote:not-italic:first-child:mt-0
+                    prose-ul:text-gray-200
+                    prose-ol:text-gray-200
+                    prose-li:text-gray-200
+                    prose-li:marker:text-red-500
+                    prose-img:rounded-lg prose-img:border prose-img:border-zinc-800 prose-img:shadow-lg prose-img:shadow-black/30
+                    prose-hr:border-zinc-800
+                    prose-table:border-collapse
+                    prose-table:border prose-table:border-zinc-800
+                    prose-th:bg-zinc-900 prose-th:text-white prose-th:font-bold prose-th:border prose-th:border-zinc-800 prose-th:px-4 prose-th:py-2
+                    prose-td:border prose-td:border-zinc-800 prose-td:text-gray-200 prose-td:px-4 prose-td:py-2"
                 >
                   <TinaMarkdown
                     content={post._body}
@@ -296,9 +309,9 @@ export default function PostClientPage(props: ClientPostProps) {
                   <Link
                     key={related.id}
                     href={related.url}
-                    className="group block overflow-hidden bg-gradient-to-br from-zinc-950 to-red-950/10 border-2 border-red-900/30 rounded-lg transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/20"
+                    className="group block overflow-hidden bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20"
                   >
-                    <div className="relative aspect-video mb-4 overflow-hidden rounded-t-lg bg-gradient-to-br from-zinc-900 to-red-950/30">
+                    <div className="relative aspect-video mb-4 overflow-hidden rounded-t-lg bg-zinc-900">
                       {related.heroImg ? (
                         <Image
                           src={related.heroImg}
@@ -309,18 +322,38 @@ export default function PostClientPage(props: ClientPostProps) {
                           priority={false}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-red-950/20 to-red-900/10">
-                          <svg className="w-12 h-12 text-red-900/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-900">
+                          <svg className="w-12 h-12 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
                         </div>
                       )}
                     </div>
-                    <div className="p-5">
+                    <div className="p-5 space-y-3" suppressHydrationWarning>
                       <h3 className="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors line-clamp-2">
                         {related.title}
                       </h3>
-                      <p className="text-sm text-gray-400">{related.date}</p>
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <span suppressHydrationWarning>{related.date}</span>
+                        <span className="text-zinc-700">•</span>
+                        <span suppressHydrationWarning>{related.author}</span>
+                        <span className="text-zinc-700">•</span>
+                        <span suppressHydrationWarning>{related.readingTime} min read</span>
+                      </div>
+                      {related.tags?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {related.tags.map((tag: string) => (
+                            <Link
+                              key={tag}
+                              href={`/posts?tag=${encodeURIComponent(tag)}`}
+                              className="px-2 py-0.5 text-xs font-medium bg-red-950/40 border border-red-800/40 rounded text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300"
+                              suppressHydrationWarning
+                            >
+                              {tag}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </Link>
                 ))}
@@ -332,7 +365,7 @@ export default function PostClientPage(props: ClientPostProps) {
         {/* Comments */}
         <Section>
           <div className="container max-w-6xl mx-auto px-4 py-16">
-            <div className="p-6 bg-gradient-to-br from-zinc-950 to-red-950/10 border-2 border-red-900/30 rounded-lg">
+            <div className="p-6 bg-zinc-950/80 backdrop-blur-sm border border-zinc-800/50 rounded-lg">
               <h2 className="text-2xl font-bold text-white mb-6">Comments</h2>
               <Giscus
                 repo={process.env.NEXT_PUBLIC_GISCUS_REPO as string}

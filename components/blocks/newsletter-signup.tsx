@@ -24,10 +24,9 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
   return (
     <Section background={data.background as any}>
       <div className="container my-12">
-        <Card className="relative border-2 border-red-900/40 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/30">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-red-600/10 via-red-700/5 to-transparent rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-red-600/10 via-red-800/5 to-transparent rounded-full blur-2xl" />
+        <Card className="relative border border-zinc-800/50 bg-zinc-950/90 backdrop-blur-sm p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20">
+          {/* Subtle accent line */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/30 to-transparent" />
           
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex-1">
@@ -51,7 +50,7 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={data.placeholder || 'you@example.com'}
-                className="flex-1 rounded-lg border-2 border-red-900/40 bg-black/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-700/60 focus:ring-2 focus:ring-red-900/30"
+                className="flex-1 rounded-lg border border-zinc-700/50 bg-black/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-700/40 focus:ring-2 focus:ring-red-900/20"
                 aria-label="Email address"
                 data-tina-field={tinaField(data, 'placeholder')}
               />
@@ -66,14 +65,14 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
           </div>
           
           {status === 'success' && (
-            <div className="relative mt-4 p-3 rounded-lg bg-green-950/30 border border-green-800/40">
+            <div className="relative mt-4 p-3 rounded-lg bg-green-950/20 border border-green-700/30">
               <p className="text-sm text-green-400 font-medium">
                 {data.successMessage || 'Thanks for subscribing!'}
               </p>
             </div>
           )}
           {status === 'error' && (
-            <div className="relative mt-4 p-3 rounded-lg bg-red-950/30 border border-red-800/40">
+            <div className="relative mt-4 p-3 rounded-lg bg-red-950/20 border border-red-700/30">
               <p className="text-sm text-red-400 font-medium">
                 {data.errorMessage || 'Please enter a valid email.'}
               </p>

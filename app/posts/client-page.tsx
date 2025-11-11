@@ -120,10 +120,10 @@ export default function PostsClientPage(props: ClientPostProps) {
             {filtered.map((post) => (
               <Card
                 key={post.id}
-                className="group relative order-last border-2 border-red-900/30 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 shadow-lg shadow-red-900/10 transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/20 sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2 rounded-xl overflow-hidden backdrop-blur-sm"
+                className="group relative order-last border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20 sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2 rounded-xl overflow-hidden"
               >
                 {/* Accent bar */}
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 via-red-700 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600/80 via-red-700/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="p-6 md:p-8 grid gap-y-6 sm:grid-cols-10 sm:gap-x-6 sm:gap-y-0 md:items-center md:gap-x-8 lg:gap-x-10">
                   <div className="sm:col-span-5 space-y-4">
@@ -191,9 +191,8 @@ export default function PostsClientPage(props: ClientPostProps) {
                   {post.heroImg && (
                     <div className="order-first sm:order-last sm:col-span-5">
                       <Link href={post.url} className="block group/image">
-                        <div className="relative aspect-[16/9] overflow-hidden rounded-lg border-2 border-red-900/30 shadow-lg shadow-red-900/20 group-hover/image:border-red-700/50 transition-all duration-300">
-                          {/* Red gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-tr from-red-950/40 via-transparent to-transparent opacity-60 group-hover/image:opacity-30 transition-opacity z-10" />
+                        <div className="relative aspect-[16/9] overflow-hidden rounded-lg border border-zinc-800/50 shadow-lg shadow-black/20 group-hover/image:border-red-700/40 transition-all duration-300">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                           <Image
                             width={533}
                             height={300}

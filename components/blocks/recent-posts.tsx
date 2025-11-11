@@ -73,18 +73,15 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
           {posts.map((p) => (
             <Card 
               key={p.id} 
-              className="group relative border-2 border-red-900/30 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 p-0 overflow-hidden transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/30 hover:-translate-y-1"
+              className="group relative border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20 hover:-translate-y-1"
             >
-              {/* Accent corner */}
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-red-600/20 to-transparent" />
-              
               {p.heroImg && (
                 <Link href={p.url} className="block relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
                   <img 
                     src={p.heroImg} 
                     alt={p.title} 
-                    className="w-full border-b-2 border-red-900/30 object-cover aspect-[16/9] transition-transform duration-500 group-hover:scale-110" 
+                    className="w-full border-b border-zinc-800/50 object-cover aspect-[16/9] transition-transform duration-500 group-hover:scale-110" 
                   />
                 </Link>
               )}

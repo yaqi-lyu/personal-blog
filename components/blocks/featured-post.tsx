@@ -46,10 +46,9 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
             {data.description}
           </p>
         )}
-        <Card className="group relative border-2 border-red-900/40 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 p-0 overflow-hidden transition-all duration-300 hover:border-red-700/50 hover:shadow-2xl hover:shadow-red-900/30">
-          {/* Decorative corner accent */}
-          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-red-600/30 via-red-700/10 to-transparent" />
-          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-red-600/20 via-red-800/10 to-transparent" />
+        <Card className="group relative border border-zinc-800/50 bg-zinc-950/90 backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-2xl hover:shadow-red-900/20">
+          {/* Subtle accent line */}
+          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-red-600/40 to-transparent" />
           
           <div className="grid lg:grid-cols-2 relative">
             <div className="p-8 lg:p-10 space-y-5 flex flex-col justify-center">
@@ -86,8 +85,8 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
             
             {post.heroImg && (
               <Link href={post.url} className="block relative overflow-hidden h-full min-h-[300px] lg:min-h-[400px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-950/40 via-transparent to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                 <img 
                   src={post.heroImg} 
                   alt={post.title} 

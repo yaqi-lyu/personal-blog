@@ -29,12 +29,12 @@ const extractText = (children: any): string => {
 
 // Custom heading components with IDs
 const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
-  return (props: { children: any }) => {
+  return (props: any) => {
     const text = extractText(props.children);
     const id = generateId(text);
     const Tag = `h${level}` as keyof JSX.IntrinsicElements;
     
-    return <Tag id={id}>{props.children}</Tag>;
+    return React.createElement(Tag, { id }, props.children);
   };
 };
 
@@ -54,12 +54,12 @@ export const components: Components<{
   };
   video: PageBlocksVideo;
 }> = {
-  h1: createHeading(1),
-  h2: createHeading(2),
-  h3: createHeading(3),
-  h4: createHeading(4),
-  h5: createHeading(5),
-  h6: createHeading(6),
+  h1: createHeading(1) as any,
+  h2: createHeading(2) as any,
+  h3: createHeading(3) as any,
+  h4: createHeading(4) as any,
+  h5: createHeading(5) as any,
+  h6: createHeading(6) as any,
   code_block: (props) => {
     if (!props) {
       return <></>;
@@ -102,36 +102,38 @@ export const components: Components<{
   },
   NewsletterSignup: (props) => {
     return (
-      <div className='bg-white'>
-        <div className='max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8'>
-          <div className=''>
+      <div className='bg-zinc-950 py-8' suppressHydrationWarning>
+        <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4'>
+          <div className='text-gray-200'>
             <TinaMarkdown content={props.children} />
           </div>
-          <div className='mt-8 '>
-            <form className='sm:flex'>
-              <label htmlFor='email-address' className='sr-only'>
-                Email address
-              </label>
-              <input
-                id='email-address'
-                name='email-address'
-                type='email'
-                autoComplete='email'
-                required
-                className='w-full px-5 py-3 border border-gray-300 shadow-xs placeholder-gray-400 focus:ring-1 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs rounded-md'
-                placeholder={props.placeholder}
-              />
-              <div className='mt-3 rounded-md shadow-sm sm:mt-0 sm:ml-3 sm:shrink-0'>
-                <button
-                  type='submit'
-                  className='w-full flex items-center justify-center py-3 px-5 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-teal-500'
-                >
-                  {props.buttonText}
-                </button>
-              </div>
-            </form>
-            <div className='mt-3 text-sm text-gray-500'>{props.disclaimer && <TinaMarkdown content={props.disclaimer} />}</div>
-          </div>
+          <form className='flex flex-col sm:flex-row gap-3' suppressHydrationWarning>
+            <label htmlFor='email-address' className='sr-only'>
+              Email address
+            </label>
+            <input
+              id='email-address'
+              name='email-address'
+              type='email'
+              autoComplete='email'
+              required
+              className='flex-1 px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600'
+              placeholder={props.placeholder}
+              suppressHydrationWarning
+            />
+            <button
+              type='submit'
+              className='px-6 py-2 bg-gradient-to-r from-red-700 to-red-900 text-white font-medium rounded-md hover:from-red-600 hover:to-red-800 transition-all duration-300 whitespace-nowrap'
+              suppressHydrationWarning
+            >
+              {props.buttonText}
+            </button>
+          </form>
+          {props.disclaimer && (
+            <div className='text-sm text-gray-400 mt-2'>
+              <TinaMarkdown content={props.disclaimer} />
+            </div>
+          )}
         </div>
       </div>
     );
