@@ -7,6 +7,37 @@ import { Video } from './blocks/video';
 import { PageBlocksVideo } from '@/tina/__generated__/types';
 import { Mermaid } from './blocks/mermaid';
 
+// Helper function to generate ID from text
+const generateId = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+};
+
+// Helper function to extract text from TinaMarkdown content
+const extractText = (children: any): string => {
+  if (typeof children === 'string') return children;
+  if (Array.isArray(children)) {
+    return children.map(extractText).join('');
+  }
+  if (children?.props?.children) {
+    return extractText(children.props.children);
+  }
+  return '';
+};
+
+// Custom heading components with IDs
+const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
+  return (props: { children: any }) => {
+    const text = extractText(props.children);
+    const id = generateId(text);
+    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+    
+    return <Tag id={id}>{props.children}</Tag>;
+  };
+};
+
 export const components: Components<{
   BlockQuote: {
     children: TinaMarkdownContent;
@@ -23,6 +54,12 @@ export const components: Components<{
   };
   video: PageBlocksVideo;
 }> = {
+  h1: createHeading(1),
+  h2: createHeading(2),
+  h3: createHeading(3),
+  h4: createHeading(4),
+  h5: createHeading(5),
+  h6: createHeading(6),
   code_block: (props) => {
     if (!props) {
       return <></>;

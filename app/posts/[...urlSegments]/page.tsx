@@ -16,9 +16,15 @@ export default async function PostPage({
     relativePath: `${filepath}.mdx`,
   });
 
+  // Fetch related posts (posts with same tags)
+  const relatedPosts = await client.queries.postConnection({
+    sort: 'date',
+    first: 3,
+  });
+
   return (
     <Layout rawPageData={data}>
-      <PostClientPage {...data} />
+      <PostClientPage {...data} relatedPosts={relatedPosts.data} />
     </Layout>
   );
 }
