@@ -51,52 +51,66 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
 
   if (!posts?.length) return null;
 
+  const isGrayBg = data.background?.includes('gray') || data.background?.includes('#222222');
+
   return (
     <Section background={data.background as any}>
-      <div className="container my-8">
-        <h2
-          className="mb-6 text-2xl font-bold text-white"
-          data-tina-field={tinaField(data, 'title')}
-        >
-          {data.title || 'Recent Articles'}
-        </h2>
-        {data.description && (
-          <p
-            className="mb-6 text-gray-300"
-            data-tina-field={tinaField(data, 'description')}
+      <div className={`container ${isGrayBg ? 'my-12 lg:my-16' : 'my-8'}`}>
+        <div className={isGrayBg ? 'mb-10' : 'mb-6'}>
+          <h2
+            className={`${isGrayBg ? 'text-3xl lg:text-4xl' : 'text-2xl'} font-bold text-white`}
+            data-tina-field={tinaField(data, 'title')}
           >
-            {data.description}
-          </p>
-        )}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {data.title || 'Recent Articles'}
+          </h2>
+          {data.description && (
+            <p
+              className={`${isGrayBg ? 'mt-2 text-gray-300 text-lg' : 'mt-2 text-gray-300'}`}
+              data-tina-field={tinaField(data, 'description')}
+            >
+              {data.description}
+            </p>
+          )}
+        </div>
+        <div className={`grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ${isGrayBg ? 'gap-8' : ''}`}>
           {posts.map((p) => (
             <Card 
               key={p.id} 
-              className="group relative border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20 hover:-translate-y-1"
+              className={`group relative border backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+                isGrayBg
+                  ? 'border-red-900/30 bg-[#1a1a1a] hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/30 rounded-xl'
+                  : 'border-zinc-800/50 bg-zinc-950/80 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20'
+              }`}
             >
               {p.heroImg && (
                 <Link href={p.url} className="block relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
+                  <div className={`absolute inset-0 bg-gradient-to-t z-10 ${
+                    isGrayBg ? 'from-[#1a1a1a]/80 via-transparent to-transparent' : 'from-black/70 via-transparent to-transparent'
+                  }`} />
                   <img 
                     src={p.heroImg} 
                     alt={p.title} 
-                    className="w-full border-b border-zinc-800/50 object-cover aspect-[16/9] transition-transform duration-500 group-hover:scale-110" 
+                    className={`w-full object-cover aspect-[16/9] transition-transform duration-500 group-hover:scale-110 ${
+                      isGrayBg ? 'border-b border-red-900/30' : 'border-b border-zinc-800/50'
+                    }`}
                   />
                 </Link>
               )}
               
-              <div className="p-5 space-y-3">
+              <div className={isGrayBg ? 'p-6 space-y-3' : 'p-5 space-y-3'}>
                 <Link href={p.url} className="block">
-                  <h3 className="text-lg font-bold text-white leading-tight hover:text-red-400 transition-colors line-clamp-2">
+                  <h3 className={`font-bold leading-tight hover:text-red-400 transition-colors line-clamp-2 ${
+                    isGrayBg ? 'text-xl text-white' : 'text-lg text-white'
+                  }`}>
                     {p.title}
                   </h3>
                 </Link>
                 
-                <div className="flex items-center gap-2 text-xs text-gray-400">
+                <div className={`flex items-center gap-2 text-xs ${isGrayBg ? 'text-gray-300' : 'text-gray-400'}`}>
                   <span>{p.published}</span>
-                  <span className="text-red-800">•</span>
+                  <span className={isGrayBg ? 'text-red-700' : 'text-red-800'}>•</span>
                   <span>{p.author}</span>
-                  <span className="text-red-800">•</span>
+                  <span className={isGrayBg ? 'text-red-700' : 'text-red-800'}>•</span>
                   <span>{p.readingMins} min read</span>
                 </div>
                 
@@ -106,7 +120,11 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
                       <Link
                         key={t.name}
                         href={`/posts?tag=${encodeURIComponent(t.name)}`}
-                        className="px-2 py-0.5 text-xs font-medium bg-red-950/40 border border-red-800/40 rounded text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300"
+                        className={`px-2.5 py-1 text-xs font-medium rounded transition-all duration-200 ${
+                          isGrayBg
+                            ? 'bg-red-950/50 border border-red-800/50 text-red-400 hover:bg-red-900/60 hover:border-red-600/70 hover:text-red-300'
+                            : 'bg-red-950/40 border border-red-800/40 text-red-400 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300'
+                        }`}
                       >
                         {t.name}
                       </Link>

@@ -38,12 +38,13 @@ export const CategoriesStrip = ({ data, allTags }: { data: PageBlocksCategories;
   if (!tags.length) return null;
 
   const badgeColor = data.badgeColor || 'default';
+  const isGrayBg = data.background?.includes('gray') || data.background?.includes('#222222');
 
   return (
     <Section background={data.background as any}>
-      <div className="container my-8">
-        <h2 className="mb-6 text-2xl font-bold text-white">Categories</h2>
-        <div className="flex flex-wrap gap-3">
+      <div className={`container ${isGrayBg ? 'my-12 lg:my-16' : 'my-8'}`}>
+        <h2 className={`${isGrayBg ? 'text-3xl lg:text-4xl mb-8' : 'text-2xl mb-6'} font-bold text-white`}>Categories</h2>
+        <div className={`flex flex-wrap ${isGrayBg ? 'gap-4' : 'gap-3'}`}>
           {tags.map((tag, index) => {
             const colorKey = badgeColor as keyof typeof tagColorClasses;
             const colorClasses = tagColorClasses[colorKey] || tagColorClasses.default;
@@ -54,13 +55,15 @@ export const CategoriesStrip = ({ data, allTags }: { data: PageBlocksCategories;
                 key={index}
                 href={`/posts?tag=${encodeURIComponent(tag?.name || '')}`}
                 className={cn(
-                  'group/cat relative px-4 py-2 text-sm font-medium tracking-wide border-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105',
+                  'group/cat relative font-medium tracking-wide border-2 transition-all duration-300 hover:shadow-lg hover:scale-105',
+                  isGrayBg ? 'px-5 py-2.5 text-base rounded-xl' : 'px-4 py-2 text-sm rounded-lg',
                   colorClasses
                 )}
               >
                 <span className="relative z-10">{tag?.name}</span>
                 <div className={cn(
-                  'absolute inset-0 bg-gradient-to-r opacity-0 group-hover/cat:opacity-100 transition-opacity rounded-lg',
+                  'absolute inset-0 bg-gradient-to-r opacity-0 group-hover/cat:opacity-100 transition-opacity',
+                  isGrayBg ? 'rounded-xl' : 'rounded-lg',
                   gradientClasses
                 )} />
               </Link>

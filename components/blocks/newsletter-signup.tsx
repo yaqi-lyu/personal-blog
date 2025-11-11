@@ -21,23 +21,31 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
     }
   };
 
+  const isGrayBg = data.background?.includes('gray') || data.background?.includes('#222222');
+  
   return (
     <Section background={data.background as any}>
-      <div className="container my-12">
-        <Card className="relative border border-red-900/20 bg-[#1a1a1a] backdrop-blur-sm p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/30">
+      <div className={`container ${isGrayBg ? 'my-12 lg:my-16' : 'my-12'}`}>
+        <Card className={`relative border backdrop-blur-sm overflow-hidden transition-all duration-300 ${
+          isGrayBg
+            ? 'border-red-900/30 bg-[#1a1a1a] p-10 lg:p-12 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/40 rounded-2xl'
+            : 'border-red-900/20 bg-[#1a1a1a] p-8 lg:p-10 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/30'
+        }`}>
           {/* Subtle accent line */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent opacity-0 hover:opacity-100 transition-opacity" />
+          <div className={`absolute top-0 left-0 w-full bg-gradient-to-r from-transparent via-red-600/40 to-transparent opacity-0 hover:opacity-100 transition-opacity ${
+            isGrayBg ? 'h-1 rounded-t-2xl' : 'h-px'
+          }`} />
           
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex-1">
               <h3
-                className="text-2xl lg:text-3xl font-bold text-white mb-2"
+                className={`font-bold text-white mb-2 ${isGrayBg ? 'text-3xl lg:text-4xl' : 'text-2xl lg:text-3xl'}`}
                 data-tina-field={tinaField(data, 'title')}
               >
                 {data.title || 'Subscribe to our newsletter'}
               </h3>
               <p
-                className="text-gray-300 text-sm lg:text-base"
+                className={`text-gray-300 ${isGrayBg ? 'text-base lg:text-lg' : 'text-sm lg:text-base'}`}
                 data-tina-field={tinaField(data, 'description')}
               >
                 {data.description || 'Get the latest updates and articles delivered to your inbox.'}
