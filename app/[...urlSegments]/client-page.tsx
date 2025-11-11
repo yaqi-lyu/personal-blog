@@ -20,7 +20,7 @@ export default function ClientPage(props: ClientPageProps) {
   const { data } = useTina({ ...props });
   return (
     <ErrorBoundary>
-      <Blocks {...data?.page} extraPosts={props.extraPosts} allTags={props.allTags} />
+      <Blocks {...data?.page as any} extraPosts={props.extraPosts} allTags={props.allTags} />
     </ErrorBoundary>
   );
 }

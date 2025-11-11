@@ -11,8 +11,39 @@ import { tinaField } from 'tinacms/dist/react';
 
 export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; extraPosts?: PostConnectionQuery }) => {
   const post = useMemo(() => {
-    const node = extraPosts?.postConnection?.edges?.[0]?.node;
+    let node;
+    
+    // If a specific post is selected, find it
+    if (data.post) {
+      // data.post is a reference string like "content/posts/learning-about-markdown.mdx"
+      const postRef = typeof data.post === 'string' ? data.post : (data.post as any)?.id;
+      
+      if (postRef) {
+        // Try to match by relativePath or id
+        node = extraPosts?.postConnection?.edges?.find(edge => {
+          const edgeNode = edge?.node;
+          if (!edgeNode) return false;
+          
+          // Check if the reference matches the full path
+          const fullPath = `content/posts/${edgeNode._sys.relativePath}`;
+          
+          return (
+            edgeNode.id === postRef ||
+            edgeNode._sys.relativePath === postRef ||
+            fullPath === postRef ||
+            postRef.endsWith(edgeNode._sys.relativePath)
+          );
+        })?.node;
+      }
+    }
+    
+    // Fall back to the first post if no specific post is selected or found
+    if (!node) {
+      node = extraPosts?.postConnection?.edges?.[0]?.node;
+    }
+    
     if (!node) return null;
+    
     const date = new Date(node.date!);
     const published = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
     return {
@@ -25,7 +56,7 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
       published,
       readingMins: Math.max(1, Math.round((JSON.stringify(node.excerpt ?? '').split(/\s+/).length || 400) / 200)),
     };
-  }, [extraPosts]);
+  }, [extraPosts, data.post]);
 
   if (!post) return null;
 
@@ -128,6 +159,13 @@ export const featuredBlockSchema: Template = {
       ui: {
         component: 'textarea',
       },
+    },
+    {
+      type: 'reference',
+      label: 'Featured Post',
+      name: 'post',
+      description: 'Select a post to feature (leave empty to show the most recent post)',
+      collections: ['post'],
     },
     {
       type: 'string',

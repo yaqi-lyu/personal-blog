@@ -26,9 +26,8 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
 
   const posts = useMemo(() => {
     const edges = extraPosts?.postConnection?.edges || [];
-    return edges
-      .map((edge) => edge?.node)
-      .filter(Boolean)
+    const allPosts = edges.map((edge) => edge?.node).filter(Boolean);
+    return allPosts
       .slice(0, count)
       .map((post) => {
         const date = new Date(post!.date!);

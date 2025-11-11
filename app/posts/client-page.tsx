@@ -22,6 +22,8 @@ interface ClientPostProps {
 export default function PostsClientPage(props: ClientPostProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [displayedCount, setDisplayedCount] = useState(4);
+  const POSTS_PER_PAGE = 4;
 
   // Transform raw posts into clean format
   const posts = useMemo(() => props.data?.postConnection.edges!.map((postData) => {
@@ -61,11 +63,25 @@ export default function PostsClientPage(props: ClientPostProps) {
     );
   }, [tagFilteredPosts, searchQuery]);
 
+  // Get paginated posts
+  const displayedPosts = useMemo(() => {
+    return filtered.slice(0, displayedCount);
+  }, [filtered, displayedCount]);
+
+  // Check if there are more posts to load
+  const hasMorePosts = displayedCount < filtered.length;
+
   // Clear all filters and navigate
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
+    setDisplayedCount(4);
     router.push('/posts');
   }, [router]);
+
+  // Load more posts
+  const handleLoadMore = useCallback(() => {
+    setDisplayedCount(prev => prev + POSTS_PER_PAGE);
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -122,7 +138,7 @@ export default function PostsClientPage(props: ClientPostProps) {
       <Section background="bg-[#222222] dark:bg-gray-900">
         <div className="container flex flex-col items-center gap-16">
           <div className="grid gap-y-8 sm:grid-cols-12 sm:gap-y-10 md:gap-y-12 lg:gap-y-16 w-full">
-            {filtered.map((post) => (
+            {displayedPosts.map((post) => (
               <Card
                 key={post.id}
                 className="group relative order-last border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20 sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2 rounded-xl overflow-hidden"
@@ -213,6 +229,27 @@ export default function PostsClientPage(props: ClientPostProps) {
               </Card>
             ))}
           </div>
+
+          {/* Load More Button */}
+          {hasMorePosts && (
+            <div className="flex justify-center pt-8">
+              <button
+                onClick={handleLoadMore}
+                className="px-8 py-3 font-semibold text-white bg-gradient-to-r from-red-700 to-red-900 rounded-lg transition-all duration-300 hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:shadow-red-900/50 hover:scale-105"
+              >
+                Load More Articles
+              </button>
+            </div>
+          )}
+
+          {/* No Posts Message */}
+          {filtered.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-400 text-lg">
+                No posts found. Try adjusting your search or filters.
+              </p>
+            </div>
+          )}
         </div>
       </Section>
     </ErrorBoundary>

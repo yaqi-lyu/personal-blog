@@ -11,10 +11,10 @@ export default async function Home() {
     relativePath: `home.mdx`,
   });
 
-  // Fetch posts (first 4 for featured + recent)
+  // Fetch posts (first 12 to allow flexibility for featured + recent blocks)
   const posts = await client.queries.postConnection({
     sort: 'date',
-    first: 4,
+    first: 12,
   });
 
   // Fetch all tags
