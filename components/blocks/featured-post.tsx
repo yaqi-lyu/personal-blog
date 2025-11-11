@@ -4,13 +4,12 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { Section } from '../layout/section';
 import { Card } from '../ui/card';
-import { PostConnectionQuery } from '@/tina/__generated__/types';
+import { PageBlocksFeatured, PostConnectionQuery } from '@/tina/__generated__/types';
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
+import { tinaField } from 'tinacms/dist/react';
 
-type FeaturedBlockData = { background?: string };
-
-export const FeaturedPost = ({ data, extraPosts }: { data: FeaturedBlockData; extraPosts?: PostConnectionQuery }) => {
+export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; extraPosts?: PostConnectionQuery }) => {
   const post = useMemo(() => {
     const node = extraPosts?.postConnection?.edges?.[0]?.node;
     if (!node) return null;
@@ -26,14 +25,27 @@ export const FeaturedPost = ({ data, extraPosts }: { data: FeaturedBlockData; ex
       published,
       readingMins: Math.max(1, Math.round((JSON.stringify(node.excerpt ?? '').split(/\s+/).length || 400) / 200)),
     };
-  }, [data]);
+  }, [extraPosts]);
 
   if (!post) return null;
 
   return (
     <Section background={data.background as any}>
       <div className="container my-10">
-        <h2 className="mb-4 text-2xl font-semibold">Featured</h2>
+        <h2
+          className="mb-4 text-2xl font-semibold"
+          data-tina-field={tinaField(data, 'title')}
+        >
+          {data.title || 'Featured'}
+        </h2>
+        {data.description && (
+          <p
+            className="mb-4 text-muted-foreground"
+            data-tina-field={tinaField(data, 'description')}
+          >
+            {data.description}
+          </p>
+        )}
         <Card className="p-0 overflow-hidden">
           <div className="grid lg:grid-cols-2">
             <div className="p-6 lg:p-8">
@@ -45,8 +57,11 @@ export const FeaturedPost = ({ data, extraPosts }: { data: FeaturedBlockData; ex
                 <span>{typeof post.excerpt === 'string' ? post.excerpt : ''}</span>
               </div>
               <div className="mt-6">
-                <Link href={post.url} className="inline-flex rounded-md bg-primary px-4 py-2 text-primary-foreground hover:opacity-90">
-                  Read More
+                <Link
+                  href={post.url}
+                  className="inline-flex rounded-md bg-primary px-4 py-2 text-primary-foreground hover:opacity-90"
+                >
+                  {data.buttonText || 'Read More'}
                 </Link>
               </div>
             </div>
@@ -67,10 +82,35 @@ export const featuredBlockSchema: Template = {
   label: 'Featured Post',
   ui: {
     previewSrc: '/blocks/content.png',
-    defaultItem: {},
+    defaultItem: {
+      title: 'Featured',
+      description: '',
+      buttonText: 'Read More',
+    },
   },
   fields: [
     sectionBlockSchemaField as any,
+    {
+      type: 'string',
+      label: 'Title',
+      name: 'title',
+      description: 'The heading for the featured section',
+    },
+    {
+      type: 'string',
+      label: 'Description',
+      name: 'description',
+      description: 'Optional description text below the title',
+      ui: {
+        component: 'textarea',
+      },
+    },
+    {
+      type: 'string',
+      label: 'Button Text',
+      name: 'buttonText',
+      description: 'Text for the call-to-action button',
+    },
   ],
 };
 

@@ -1,5 +1,5 @@
 import { tinaField } from "tinacms/dist/react";
-import { Page, PageBlocks, PostConnectionQuery, TagConnectionQuery } from "../../tina/__generated__/types";
+import { Page, PageBlocks, PostConnectionQuery, TagConnectionQuery, PageBlocksFeatured, PageBlocksRecent, PageBlocksCategories, PageBlocksNewsletter } from "../../tina/__generated__/types";
 import { Hero } from "./hero";
 import { Content } from "./content";
 import { Features } from "./features";
@@ -13,10 +13,7 @@ import { RecentPosts } from "./recent-posts";
 import { CategoriesStrip } from "./categories-strip";
 import { NewsletterSignup } from "./newsletter-signup";
 
-type ExtendedBlock = (PageBlocks & { __typename?: PageBlocks['__typename'] }) | {
-  __typename: 'PageBlocksFeatured' | 'PageBlocksRecent' | 'PageBlocksCategories' | 'PageBlocksNewsletter';
-  background?: string;
-};
+type ExtendedBlock = PageBlocks | PageBlocksFeatured | PageBlocksRecent | PageBlocksCategories | PageBlocksNewsletter;
 
 export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPosts?: PostConnectionQuery; allTags?: TagConnectionQuery }) => {
   if (!props.blocks) return null;
@@ -36,29 +33,29 @@ export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPos
 const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery; allTags?: TagConnectionQuery }) => {
   switch (block.__typename) {
     case "PageBlocksVideo":
-      return <Video data={block} />;
+      return <Video data={block as any} />;
     case "PageBlocksHero":
-      return <Hero data={block} />;
+      return <Hero data={block as any} />;
     case "PageBlocksCallout":
-      return <Callout data={block} />;
+      return <Callout data={block as any} />;
     case "PageBlocksStats":
-      return <Stats data={block} />;
+      return <Stats data={block as any} />;
     case "PageBlocksContent":
-      return <Content data={block} />;
+      return <Content data={block as any} />;
     case "PageBlocksFeatures":
-      return <Features data={block} />;
+      return <Features data={block as any} />;
     case "PageBlocksTestimonial":
-      return <Testimonial data={block} />;
+      return <Testimonial data={block as any} />;
     case "PageBlocksCta":
-      return <CallToAction data={block} />;
+      return <CallToAction data={block as any} />;
     case "PageBlocksFeatured":
-      return block.extraPosts ? <FeaturedPost data={block} extraPosts={block.extraPosts} /> : null;
+      return block.extraPosts ? <FeaturedPost data={block as PageBlocksFeatured} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksRecent":
-      return block.extraPosts ? <RecentPosts data={block} extraPosts={block.extraPosts} /> : null;
+      return block.extraPosts ? <RecentPosts data={block as PageBlocksRecent} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksCategories":
-      return <CategoriesStrip data={block} allTags={block.allTags} />;
+      return <CategoriesStrip data={block as PageBlocksCategories} allTags={block.allTags} />;
     case "PageBlocksNewsletter":
-      return <NewsletterSignup data={block} />;
+      return <NewsletterSignup data={block as PageBlocksNewsletter} />;
     default:
       return null;
   }
