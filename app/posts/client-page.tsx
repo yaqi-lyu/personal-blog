@@ -60,10 +60,10 @@ export default function PostsClientPage(props: ClientPostProps) {
       <Section>
         <div className="container flex flex-col items-center gap-16">
           <div className="text-center">
-            <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl">
+            <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl text-white">
               {props.selectedTag ? `Posts tagged with "${props.selectedTag}"` : 'YakShaver Blog'}
             </h2>
-            <p className="mx-auto max-w-2xl text-muted-foreground md:text-lg">
+            <p className="mx-auto max-w-2xl text-gray-300 md:text-lg">
               {props.selectedTag 
                 ? `Showing all posts related to ${props.selectedTag}`
                 : 'Practical engineering notes, patterns, and templates—so you can ship faster with fewer yaks.'
@@ -75,8 +75,8 @@ export default function PostsClientPage(props: ClientPostProps) {
             {props.selectedTag && (
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Filtered by tag:</span>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium">
+                  <span className="text-sm text-gray-300">Filtered by tag:</span>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-white">
                     {props.selectedTag}
                     <button
                       onClick={() => setQuery('')}
@@ -89,7 +89,7 @@ export default function PostsClientPage(props: ClientPostProps) {
                 </div>
                 <Link 
                   href="/posts"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-gray-300 hover:text-white transition-colors"
                 >
                   View all posts →
                 </Link>
@@ -99,7 +99,7 @@ export default function PostsClientPage(props: ClientPostProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search posts by title, tag, or excerpt..."
-              className="w-full rounded-md border bg-background px-4 py-2 text-base outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-md border bg-background px-4 py-2 text-base text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-ring"
               aria-label="Search posts"
             />
           </div>
@@ -113,19 +113,19 @@ export default function PostsClientPage(props: ClientPostProps) {
                 <div className="grid gap-y-6 sm:grid-cols-10 sm:gap-x-5 sm:gap-y-0 md:items-center md:gap-x-8 lg:gap-x-12">
                   <div className="sm:col-span-5">
                     <div className="mb-4 md:mb-6">
-                      <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-muted-foreground md:gap-5 lg:gap-6">
+                      <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-gray-400 md:gap-5 lg:gap-6">
                         {post.tags?.map((tag) => (
                           <Link 
                             key={tag}
                             href={`/posts?tag=${encodeURIComponent(tag)}`}
-                            className="hover:text-foreground transition-colors"
+                            className="hover:text-white transition-colors"
                           >
                             {tag}
                           </Link>
                         ))}
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold md:text-2xl lg:text-3xl">
+                    <h3 className="text-xl font-semibold md:text-2xl lg:text-3xl text-white">
                       <Link
                         href={post.url}
                         className="hover:underline"
@@ -133,10 +133,10 @@ export default function PostsClientPage(props: ClientPostProps) {
                         {post.title}
                       </Link>
                     </h3>
-                    <div className="mt-4 text-muted-foreground md:mt-5">
+                    <div className="mt-4 text-gray-300 md:mt-5">
                       <TinaMarkdown content={post.excerpt} />
                     </div>
-                    <div className="mt-6 flex items-center space-x-4 text-sm md:mt-8">
+                    <div className="mt-6 flex items-center space-x-4 text-sm md:mt-8 text-gray-300">
                       <Avatar>
                         {post.author.avatar && (
                           <AvatarImage
@@ -149,16 +149,16 @@ export default function PostsClientPage(props: ClientPostProps) {
                           <UserRound size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
                         </AvatarFallback>
                       </Avatar>
-                      <span className="text-muted-foreground">{post.author.name}</span>
-                      <span className="text-muted-foreground">•</span>
-                      <span className="text-muted-foreground">
+                      <span>{post.author.name}</span>
+                      <span>•</span>
+                      <span>
                         {post.published}
                       </span>
                     </div>
                     <div className="mt-6 flex items-center space-x-2 md:mt-8">
                       <Link
                         href={post.url}
-                        className="inline-flex items-center font-semibold hover:underline md:text-base"
+                        className="inline-flex items-center font-semibold text-white hover:underline md:text-base"
                       >
                         <span>Read more</span>
                         <ArrowRight className="ml-2 size-4 transition-transform" />
