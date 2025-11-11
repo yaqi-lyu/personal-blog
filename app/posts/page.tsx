@@ -4,7 +4,13 @@ import PostsClientPage from './client-page';
 
 export const revalidate = 300;
 
-export default async function PostsPage() {
+export default async function PostsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tag?: string }>;
+}) {
+  const { tag } = await searchParams;
+  
   let posts = await client.queries.postConnection({
     sort: 'date',
     last: 1
@@ -30,7 +36,7 @@ export default async function PostsPage() {
 
   return (
     <Layout rawPageData={allPosts.data}>
-      <PostsClientPage {...allPosts} />
+      <PostsClientPage {...allPosts} selectedTag={tag} />
     </Layout>
   );
 }

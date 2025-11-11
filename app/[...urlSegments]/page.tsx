@@ -7,6 +7,9 @@ import ClientPage from './client-page';
 
 export const revalidate = 300;
 
+// Prevent catch-all from matching well-known and other special routes
+export const dynamicParams = true;
+
 export default async function Page({
   params,
 }: {

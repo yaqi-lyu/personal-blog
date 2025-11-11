@@ -15,10 +15,11 @@ interface ClientPostProps {
   data: PostConnectionQuery;
   variables: PostConnectionQueryVariables;
   query: string;
+  selectedTag?: string;
 }
 
 export default function PostsClientPage(props: ClientPostProps) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(props.selectedTag || '');
 
   const posts = useMemo(() => props.data?.postConnection.edges!.map((postData) => {
     const post = postData!.node!;
@@ -32,7 +33,7 @@ export default function PostsClientPage(props: ClientPostProps) {
       id: post.id,
       published: formattedDate,
       title: post.title,
-      tags: post.tags?.map((tag) => tag?.tag?.name) || [],
+      tags: (post.tags?.map((tag) => tag?.tag?.name) || []).filter(Boolean) as string[],
       url: `/posts/${post._sys.breadcrumbs.join('/')}`,
       excerpt: post.excerpt,
       heroImg: post.heroImg,
@@ -60,14 +61,40 @@ export default function PostsClientPage(props: ClientPostProps) {
         <div className="container flex flex-col items-center gap-16">
           <div className="text-center">
             <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl">
-              YakShaver Blog
+              {props.selectedTag ? `Posts tagged with "${props.selectedTag}"` : 'YakShaver Blog'}
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground md:text-lg">
-              Practical engineering notes, patterns, and templates—so you can ship faster with fewer yaks.
+              {props.selectedTag 
+                ? `Showing all posts related to ${props.selectedTag}`
+                : 'Practical engineering notes, patterns, and templates—so you can ship faster with fewer yaks.'
+              }
             </p>
           </div>
 
           <div className="w-full max-w-3xl">
+            {props.selectedTag && (
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Filtered by tag:</span>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium">
+                    {props.selectedTag}
+                    <button
+                      onClick={() => setQuery('')}
+                      className="hover:text-primary"
+                      aria-label="Clear tag filter"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                </div>
+                <Link 
+                  href="/posts"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  View all posts →
+                </Link>
+              </div>
+            )}
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -87,7 +114,15 @@ export default function PostsClientPage(props: ClientPostProps) {
                   <div className="sm:col-span-5">
                     <div className="mb-4 md:mb-6">
                       <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-muted-foreground md:gap-5 lg:gap-6">
-                        {post.tags?.map((tag) => <span key={tag}>{tag}</span>)}
+                        {post.tags?.map((tag) => (
+                          <Link 
+                            key={tag}
+                            href={`/posts?tag=${encodeURIComponent(tag)}`}
+                            className="hover:text-foreground transition-colors"
+                          >
+                            {tag}
+                          </Link>
+                        ))}
                       </div>
                     </div>
                     <h3 className="text-xl font-semibold md:text-2xl lg:text-3xl">

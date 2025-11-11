@@ -86,15 +86,16 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
               {data.showTags && p.tags?.length ? (
                 <div className="mt-2 flex flex-wrap gap-2 text-xs">
                   {p.tags.map((t) => (
-                    <span
+                    <Link
                       key={t.name}
+                      href={`/posts?tag=${encodeURIComponent(t.name)}`}
                       className={cn(
-                        'rounded px-2 py-0.5',
+                        'rounded px-2 py-0.5 transition-opacity hover:opacity-80',
                         tagColorClasses[t.color as keyof typeof tagColorClasses] || tagColorClasses.default
                       )}
                     >
                       {t.name}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               ) : null}
