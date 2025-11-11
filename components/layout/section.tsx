@@ -10,7 +10,12 @@ export const Section: React.FC<SectionProps> = ({ className, children, backgroun
   const bgClass = background || "bg-default";
   const isDark =
     typeof bgClass === 'string' &&
-    (bgClass.includes('bg-black') || bgClass.includes('bg-zinc-900') || bgClass.includes('bg-neutral-900'));
+    (bgClass.includes('bg-black') ||
+     bgClass.includes('bg-zinc-900') ||
+     bgClass.includes('bg-neutral-900') ||
+     bgClass.includes('bg-[#222222]') ||
+     bgClass.includes('bg-[#1a1a1a]') ||
+     bgClass.includes('bg-[#000000]'));
 
   const localVars: React.CSSProperties = {
     ...(isDark ? { ['--foreground' as any]: 'oklch(0.985 0 0)' } : { ['--foreground' as any]: 'oklch(0.145 0 0)' }),
@@ -31,9 +36,10 @@ export const Section: React.FC<SectionProps> = ({ className, children, backgroun
 export const tailwindBackgroundOptions = [
   { label: "Default", value: "bg-default" },
   { label: "White", value: "bg-white/80" },
-  { label: "Gray", value: "bg-gray-50/80" },
+  { label: "Gray", value: "bg-[#222222]" },
+  { label: "Dark Gray", value: "bg-[#1a1a1a]" },
   { label: "Zinc", value: "bg-zinc-50" },
-  { label: "Black", value: "bg-black/80" },
+  { label: "Black", value: "bg-[#000000]" },
   { label: "Red", value: "bg-red-50/80" },
   { label: "Orange", value: "bg-orange-50/80" },
   { label: "Yellow", value: "bg-yellow-50/80" },
