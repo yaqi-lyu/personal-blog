@@ -321,7 +321,7 @@ export default function PostClientPage(props: ClientPostProps) {
 
         {/* Comments */}
         <Section>
-          <div className="container max-w-4xl mx-auto px-4 py-16">
+          <div className="container max-w-6xl mx-auto px-4 py-16">
             <div className="p-6 bg-gradient-to-br from-zinc-950 to-red-950/10 border-2 border-red-900/30 rounded-lg">
               <h2 className="text-2xl font-bold text-white mb-6">Comments</h2>
               <Giscus
