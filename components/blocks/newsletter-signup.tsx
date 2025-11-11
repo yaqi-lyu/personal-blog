@@ -24,50 +24,60 @@ export const NewsletterSignup = ({ data }: { data: PageBlocksNewsletter }) => {
   return (
     <Section background={data.background as any}>
       <div className="container my-12">
-        <Card className="p-6 lg:p-8">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
+        <Card className="relative border-2 border-red-900/40 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/30">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-red-600/10 via-red-700/5 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-red-600/10 via-red-800/5 to-transparent rounded-full blur-2xl" />
+          
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex-1">
               <h3
-                className="text-xl font-semibold"
+                className="text-2xl lg:text-3xl font-bold text-white mb-2"
                 data-tina-field={tinaField(data, 'title')}
               >
                 {data.title || 'Subscribe to our newsletter'}
               </h3>
               <p
-                className="text-sm text-muted-foreground"
+                className="text-gray-300 text-sm lg:text-base"
                 data-tina-field={tinaField(data, 'description')}
               >
                 {data.description || 'Get the latest updates and articles delivered to your inbox.'}
               </p>
             </div>
-            <form onSubmit={onSubmit} className="flex w-full max-w-md gap-2">
+            
+            <form onSubmit={onSubmit} className="flex w-full max-w-md gap-3 flex-col sm:flex-row">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={data.placeholder || 'you@example.com'}
-                className="flex-1 rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
+                className="flex-1 rounded-lg border-2 border-red-900/40 bg-black/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200 focus:border-red-700/60 focus:ring-2 focus:ring-red-900/30"
                 aria-label="Email address"
                 data-tina-field={tinaField(data, 'placeholder')}
               />
               <button
                 type="submit"
-                className="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:opacity-90"
+                className="px-6 py-3 font-semibold text-white bg-gradient-to-r from-red-700 to-red-900 rounded-lg transition-all duration-300 hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:shadow-red-900/50 hover:scale-105 whitespace-nowrap"
                 data-tina-field={tinaField(data, 'buttonText')}
               >
                 {data.buttonText || 'Sign up'}
               </button>
             </form>
           </div>
+          
           {status === 'success' && (
-            <p className="mt-3 text-sm text-green-600">
-              {data.successMessage || 'Thanks for subscribing!'}
-            </p>
+            <div className="relative mt-4 p-3 rounded-lg bg-green-950/30 border border-green-800/40">
+              <p className="text-sm text-green-400 font-medium">
+                {data.successMessage || 'Thanks for subscribing!'}
+              </p>
+            </div>
           )}
           {status === 'error' && (
-            <p className="mt-3 text-sm text-red-600">
-              {data.errorMessage || 'Please enter a valid email.'}
-            </p>
+            <div className="relative mt-4 p-3 rounded-lg bg-red-950/30 border border-red-800/40">
+              <p className="text-sm text-red-400 font-medium">
+                {data.errorMessage || 'Please enter a valid email.'}
+              </p>
+            </div>
           )}
         </Card>
       </div>

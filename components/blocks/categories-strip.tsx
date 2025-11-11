@@ -8,14 +8,25 @@ import { sectionBlockSchemaField } from '../layout/section';
 import { cn } from '@/lib/utils';
 
 const tagColorClasses = {
-  default: 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200',
-  blue: 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200',
-  green: 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200',
-  red: 'bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200',
-  yellow: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200',
-  purple: 'bg-purple-100 text-purple-800 hover:bg-purple-200 dark:bg-purple-900 dark:text-purple-200',
-  pink: 'bg-pink-100 text-pink-800 hover:bg-pink-200 dark:bg-pink-900 dark:text-pink-200',
-  indigo: 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200 dark:bg-indigo-900 dark:text-indigo-200',
+  default: 'bg-gradient-to-r from-gray-950/50 to-gray-900/30 border-gray-700/40 text-gray-300 hover:from-gray-900/60 hover:to-gray-800/40 hover:border-gray-600/60 hover:text-gray-200 hover:shadow-gray-900/40',
+  blue: 'bg-gradient-to-r from-blue-950/50 to-blue-900/30 border-blue-800/40 text-blue-400 hover:from-blue-900/60 hover:to-blue-800/40 hover:border-blue-600/60 hover:text-blue-300 hover:shadow-blue-900/40',
+  green: 'bg-gradient-to-r from-green-950/50 to-green-900/30 border-green-800/40 text-green-400 hover:from-green-900/60 hover:to-green-800/40 hover:border-green-600/60 hover:text-green-300 hover:shadow-green-900/40',
+  red: 'bg-gradient-to-r from-red-950/50 to-red-900/30 border-red-800/40 text-red-400 hover:from-red-900/60 hover:to-red-800/40 hover:border-red-600/60 hover:text-red-300 hover:shadow-red-900/40',
+  yellow: 'bg-gradient-to-r from-yellow-950/50 to-yellow-900/30 border-yellow-700/40 text-yellow-400 hover:from-yellow-900/60 hover:to-yellow-800/40 hover:border-yellow-600/60 hover:text-yellow-300 hover:shadow-yellow-900/40',
+  purple: 'bg-gradient-to-r from-purple-950/50 to-purple-900/30 border-purple-800/40 text-purple-400 hover:from-purple-900/60 hover:to-purple-800/40 hover:border-purple-600/60 hover:text-purple-300 hover:shadow-purple-900/40',
+  pink: 'bg-gradient-to-r from-pink-950/50 to-pink-900/30 border-pink-800/40 text-pink-400 hover:from-pink-900/60 hover:to-pink-800/40 hover:border-pink-600/60 hover:text-pink-300 hover:shadow-pink-900/40',
+  indigo: 'bg-gradient-to-r from-indigo-950/50 to-indigo-900/30 border-indigo-800/40 text-indigo-400 hover:from-indigo-900/60 hover:to-indigo-800/40 hover:border-indigo-600/60 hover:text-indigo-300 hover:shadow-indigo-900/40',
+};
+
+const tagGradientOverlay = {
+  default: 'from-gray-600/0 via-gray-600/20 to-gray-600/0',
+  blue: 'from-blue-600/0 via-blue-600/20 to-blue-600/0',
+  green: 'from-green-600/0 via-green-600/20 to-green-600/0',
+  red: 'from-red-600/0 via-red-600/20 to-red-600/0',
+  yellow: 'from-yellow-600/0 via-yellow-600/20 to-yellow-600/0',
+  purple: 'from-purple-600/0 via-purple-600/20 to-purple-600/0',
+  pink: 'from-pink-600/0 via-pink-600/20 to-pink-600/0',
+  indigo: 'from-indigo-600/0 via-indigo-600/20 to-indigo-600/0',
 };
 
 export const CategoriesStrip = ({ data, allTags }: { data: PageBlocksCategories; allTags?: TagConnectionQuery }) => {
@@ -31,20 +42,30 @@ export const CategoriesStrip = ({ data, allTags }: { data: PageBlocksCategories;
   return (
     <Section background={data.background as any}>
       <div className="container my-8">
-        <h2 className="mb-4 text-xl font-semibold">Categories</h2>
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag, index) => (
-            <Link
-              key={index}
-              href={`/posts?tag=${encodeURIComponent(tag?.name || '')}`}
-              className={cn(
-                'rounded-full border px-3 py-1 text-sm transition-colors',
-                tagColorClasses[badgeColor as keyof typeof tagColorClasses] || tagColorClasses.default
-              )}
-            >
-              {tag?.name}
-            </Link>
-          ))}
+        <h2 className="mb-6 text-2xl font-bold text-white">Categories</h2>
+        <div className="flex flex-wrap gap-3">
+          {tags.map((tag, index) => {
+            const colorKey = badgeColor as keyof typeof tagColorClasses;
+            const colorClasses = tagColorClasses[colorKey] || tagColorClasses.default;
+            const gradientClasses = tagGradientOverlay[colorKey] || tagGradientOverlay.default;
+            
+            return (
+              <Link
+                key={index}
+                href={`/posts?tag=${encodeURIComponent(tag?.name || '')}`}
+                className={cn(
+                  'group/cat relative px-4 py-2 text-sm font-medium tracking-wide border-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105',
+                  colorClasses
+                )}
+              >
+                <span className="relative z-10">{tag?.name}</span>
+                <div className={cn(
+                  'absolute inset-0 bg-gradient-to-r opacity-0 group-hover/cat:opacity-100 transition-opacity rounded-lg',
+                  gradientClasses
+                )} />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </Section>

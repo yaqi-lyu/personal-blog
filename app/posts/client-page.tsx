@@ -116,77 +116,90 @@ export default function PostsClientPage(props: ClientPostProps) {
             />
           </div>
 
-          <div className="grid gap-y-10 sm:grid-cols-12 sm:gap-y-12 md:gap-y-16 lg:gap-y-20">
+          <div className="grid gap-y-8 sm:grid-cols-12 sm:gap-y-10 md:gap-y-12 lg:gap-y-16">
             {filtered.map((post) => (
               <Card
                 key={post.id}
-                className="order-last border-0 bg-transparent shadow-none sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2"
+                className="group relative order-last border-2 border-red-900/30 bg-gradient-to-br from-black via-zinc-950 to-red-950/20 shadow-lg shadow-red-900/10 transition-all duration-300 hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/20 sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2 rounded-xl overflow-hidden backdrop-blur-sm"
               >
-                <div className="grid gap-y-6 sm:grid-cols-10 sm:gap-x-5 sm:gap-y-0 md:items-center md:gap-x-8 lg:gap-x-12">
-                  <div className="sm:col-span-5">
-                    <div className="mb-4 md:mb-6">
-                      <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-gray-400 md:gap-5 lg:gap-6">
-                        {post.tags?.map((tag) => (
-                          <Link 
-                            key={tag}
-                            href={`/posts?tag=${encodeURIComponent(tag)}`}
-                            className="hover:text-white transition-colors"
-                          >
-                            {tag}
-                          </Link>
-                        ))}
-                      </div>
+                {/* Accent bar */}
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 via-red-700 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
+                
+                <div className="p-6 md:p-8 grid gap-y-6 sm:grid-cols-10 sm:gap-x-6 sm:gap-y-0 md:items-center md:gap-x-8 lg:gap-x-10">
+                  <div className="sm:col-span-5 space-y-4">
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags?.map((tag) => (
+                        <Link 
+                          key={tag}
+                          href={`/posts?tag=${encodeURIComponent(tag)}`}
+                          className="group/tag relative px-3 py-1.5 text-xs font-medium tracking-wide uppercase bg-red-950/40 border border-red-800/40 rounded-md text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300 hover:shadow-lg hover:shadow-red-900/30 hover:-translate-y-0.5"
+                        >
+                          <span className="relative z-10">{tag}</span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-600/10 to-red-600/0 opacity-0 group-hover/tag:opacity-100 transition-opacity rounded-md" />
+                        </Link>
+                      ))}
                     </div>
-                    <h3 className="text-xl font-semibold md:text-2xl lg:text-3xl text-white">
+
+                    {/* Title */}
+                    <h3 className="text-xl font-bold md:text-2xl lg:text-3xl text-white leading-tight">
                       <Link
                         href={post.url}
-                        className="hover:underline"
+                        className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent hover:from-red-400 hover:to-white transition-all duration-300"
                       >
                         {post.title}
                       </Link>
                     </h3>
-                    <div className="mt-4 text-gray-300 md:mt-5">
+
+                    {/* Excerpt */}
+                    <div className="mt-3 text-gray-300 text-sm md:text-base leading-relaxed line-clamp-3">
                       <TinaMarkdown content={post.excerpt} />
                     </div>
-                    <div className="mt-6 flex items-center space-x-4 text-sm md:mt-8 text-gray-300">
-                      <Avatar>
+
+                    {/* Author & Date */}
+                    <div className="flex items-center space-x-4 text-sm text-gray-400">
+                      <Avatar className="ring-2 ring-red-900/30">
                         {post.author.avatar && (
                           <AvatarImage
                             src={post.author.avatar}
                             alt={post.author.name}
-                            className="h-8 w-8"
+                            className="h-9 w-9"
                           />
                         )}
-                        <AvatarFallback>
-                          <UserRound size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
+                        <AvatarFallback className="bg-red-950/50 text-red-400">
+                          <UserRound size={16} strokeWidth={2} />
                         </AvatarFallback>
                       </Avatar>
-                      <span>{post.author.name}</span>
-                      <span>•</span>
-                      <span>
-                        {post.published}
-                      </span>
+                      <span className="font-medium text-gray-300">{post.author.name}</span>
+                      <span className="text-red-800">•</span>
+                      <span>{post.published}</span>
                     </div>
-                    <div className="mt-6 flex items-center space-x-2 md:mt-8">
+
+                    {/* Read More Button */}
+                    <div className="pt-2">
                       <Link
                         href={post.url}
-                        className="inline-flex items-center font-semibold text-white hover:underline md:text-base"
+                        className="inline-flex items-center gap-2 px-4 py-2 font-semibold text-white bg-gradient-to-r from-red-700 to-red-900 rounded-lg transition-all duration-300 hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:shadow-red-900/50 hover:translate-x-1 group/button"
                       >
                         <span>Read more</span>
-                        <ArrowRight className="ml-2 size-4 transition-transform" />
+                        <ArrowRight className="size-4 transition-transform group-hover/button:translate-x-1" />
                       </Link>
                     </div>
                   </div>
+
+                  {/* Image */}
                   {post.heroImg && (
                     <div className="order-first sm:order-last sm:col-span-5">
-                      <Link href={post.url} className="block">
-                        <div className="aspect-[16/9] overflow-clip rounded-lg border border-border">
+                      <Link href={post.url} className="block group/image">
+                        <div className="relative aspect-[16/9] overflow-hidden rounded-lg border-2 border-red-900/30 shadow-lg shadow-red-900/20 group-hover/image:border-red-700/50 transition-all duration-300">
+                          {/* Red gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-tr from-red-950/40 via-transparent to-transparent opacity-60 group-hover/image:opacity-30 transition-opacity z-10" />
                           <Image
                             width={533}
                             height={300}
                             src={post.heroImg}
                             alt={post.title}
-                            className="h-full w-full object-cover transition-opacity duration-200 fade-in hover:opacity-70"
+                            className="h-full w-full object-cover transition-all duration-500 group-hover/image:scale-105"
                           />
                         </div>
                       </Link>
