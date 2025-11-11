@@ -1,12 +1,16 @@
 {
   "header": {
     "icon": {
-      "name": "BiAlarmExclamation",
+      "name": "YakShaver",
       "color": "red",
       "style": "float"
     },
-    "name": "YakShaver",
+    "name": "",
     "color": "primary",
+    "theme": {
+      "background": "#222222",
+      "foreground": "#ffffff"
+    },
     "nav": [
       {
         "href": "/",
@@ -19,6 +23,10 @@
     ]
   },
   "footer": {
+    "theme": {
+      "background": "#222222",
+      "foreground": "#ffffff"
+    },
     "social": [
       {
         "icon": {

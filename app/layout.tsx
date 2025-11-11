@@ -25,8 +25,12 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Tina",
-  description: "Tina Cloud Starter",
+  title: "YakShaver Blog",
+  description: "YakShaver Blog - Thoughts and insights",
+  icons: {
+    icon: '/yakshaver.ico',
+    apple: '/yakshaver.ico',
+  },
 };
 
 export default function RootLayout({
