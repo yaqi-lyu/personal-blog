@@ -1,20 +1,16 @@
 {
   "header": {
     "icon": {
-      "name": "FaTools",
+      "name": "BiAlarmExclamation",
       "color": "red",
       "style": "float"
     },
     "name": "YakShaver",
-    "color": "default",
+    "color": "primary",
     "nav": [
       {
         "href": "/",
         "label": "Home"
-      },
-      {
-        "href": "/about",
-        "label": "About"
       },
       {
         "href": "/posts",
@@ -51,8 +47,8 @@
     ]
   },
   "theme": {
-    "color": "blue",
-    "font": "sans",
-    "darkMode": "light"
+    "color": "red",
+    "font": "lato",
+    "darkMode": "dark"
   }
 }
