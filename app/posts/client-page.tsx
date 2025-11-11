@@ -1,7 +1,8 @@
 'use client';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
@@ -19,15 +20,14 @@ interface ClientPostProps {
 }
 
 export default function PostsClientPage(props: ClientPostProps) {
-  const [query, setQuery] = useState(props.selectedTag || '');
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
 
+  // Transform raw posts into clean format
   const posts = useMemo(() => props.data?.postConnection.edges!.map((postData) => {
     const post = postData!.node!;
     const date = new Date(post.date!);
-    let formattedDate = '';
-    if (!isNaN(date.getTime())) {
-      formattedDate = format(date, 'MMM dd, yyyy');
-    }
+    const formattedDate = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
 
     return {
       id: post.id,
@@ -44,16 +44,28 @@ export default function PostsClientPage(props: ClientPostProps) {
     }
   }) || [], [props.data]);
 
+  // First filter by tag
+  const tagFilteredPosts = useMemo(() => {
+    if (!props.selectedTag) return posts;
+    return posts.filter(p => p.tags.includes(props.selectedTag!));
+  }, [posts, props.selectedTag]);
+
+  // Then filter by search query
   const filtered = useMemo(() => {
-    if (!query.trim()) return posts;
-    const q = query.toLowerCase();
-    return posts.filter(p =>
+    if (!searchQuery.trim()) return tagFilteredPosts;
+    const q = searchQuery.toLowerCase();
+    return tagFilteredPosts.filter(p =>
       p.title?.toLowerCase().includes(q) ||
       p.tags?.some(t => t?.toLowerCase().includes(q)) ||
-      // naive excerpt search: stringify Tina rich text nodes
       JSON.stringify(p.excerpt).toLowerCase().includes(q)
     );
-  }, [posts, query]);
+  }, [tagFilteredPosts, searchQuery]);
+
+  // Clear all filters and navigate
+  const handleClearFilters = useCallback(() => {
+    setSearchQuery('');
+    router.push('/posts');
+  }, [router]);
 
   return (
     <ErrorBoundary>
@@ -79,7 +91,7 @@ export default function PostsClientPage(props: ClientPostProps) {
                   <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-white">
                     {props.selectedTag}
                     <button
-                      onClick={() => setQuery('')}
+                      onClick={handleClearFilters}
                       className="hover:text-primary"
                       aria-label="Clear tag filter"
                     >
@@ -87,17 +99,17 @@ export default function PostsClientPage(props: ClientPostProps) {
                     </button>
                   </span>
                 </div>
-                <Link 
-                  href="/posts"
+                <button 
+                  onClick={handleClearFilters}
                   className="text-sm text-gray-300 hover:text-white transition-colors"
                 >
                   View all posts →
-                </Link>
+                </button>
               </div>
             )}
             <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search posts by title, tag, or excerpt..."
               className="w-full rounded-md border bg-background px-4 py-2 text-base text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-ring"
               aria-label="Search posts"
