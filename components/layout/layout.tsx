@@ -1,8 +1,6 @@
-import React, { PropsWithChildren } from "react";
-import { LayoutProvider } from "./layout-context";
+﻿import React, { PropsWithChildren } from "react";
 import client from "../../tina/__generated__/client";
-import { Header } from "./nav/header";
-import { Footer } from "./nav/footer";
+import { LayoutContent } from "./layout-content";
 
 type LayoutProps = PropsWithChildren & {
   rawPageData?: any;
@@ -21,13 +19,18 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
     }
   );
 
+  // For blog listing and single post pages, force a black background by
+  // overriding the design tokens (CSS variables) locally. This avoids
+  // affecting other routes that also use this Layout.
+  const isBlog = Boolean((rawPageData as any)?.post || (rawPageData as any)?.postConnection);
+
   return (
-    <LayoutProvider globalSettings={globalData.global} pageData={rawPageData}>
-      <Header />
-      <main className="overflow-x-hidden pt-20">
-        {children}
-      </main>
-      <Footer />
-    </LayoutProvider>
+    <LayoutContent 
+      globalSettings={globalData.global} 
+      pageData={rawPageData}
+      isBlog={isBlog}
+    >
+      {children}
+    </LayoutContent>
   );
 }

@@ -13,15 +13,24 @@ export const Header = () => {
   const [menuState, setMenuState] = React.useState(false)
   const headerTheme = header?.theme || {};
 
+  // Determine if we have a custom background color
+  const hasCustomBg = headerTheme.background;
+  const bgClass = hasCustomBg
+    ? "bg-[var(--header-bg)]/95 backdrop-blur-xl"
+    : "bg-background/50 backdrop-blur-3xl";
+
   return (
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="bg-background/50 fixed z-20 w-full border-b backdrop-blur-3xl text-foreground"
+        className={`${bgClass} fixed z-20 w-full border-b border-white/10 text-foreground`}
         style={{
           // locally scope background/foreground so header can differ from page
           // values should be CSS colors; fall back to inherited vars
-          ...(headerTheme.background ? { ['--background' as any]: headerTheme.background } : {}),
+          ...(headerTheme.background ? {
+            ['--header-bg' as any]: headerTheme.background,
+            ['--background' as any]: headerTheme.background
+          } : {}),
           ...(headerTheme.foreground ? { ['--foreground' as any]: headerTheme.foreground } : {}),
         }}>
         <div className="mx-auto max-w-6xl px-6 transition-all duration-300">
@@ -39,7 +48,7 @@ export const Header = () => {
                     style: header.icon!.style,
                   }}
                 />{" "}
-                <span>
+                <span className="font-semibold">
                   {header.name}
                 </span>
               </Link>
@@ -53,12 +62,12 @@ export const Header = () => {
               </button>
 
               <div className="hidden lg:block">
-                <ul className="flex gap-8 text-sm">
+                <ul className="flex gap-8 text-sm font-medium">
                   {header.nav!.map((item, index) => (
                     <li key={index}>
                       <Link
                         href={item!.href!}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150">
+                        className="text-foreground/80 hover:text-foreground block duration-150">
                         <span>{item!.label}</span>
                       </Link>
                     </li>
@@ -74,7 +83,7 @@ export const Header = () => {
                     <li key={index}>
                       <Link
                         href={item!.href!}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150">
+                        className="text-foreground/80 hover:text-foreground block duration-150">
                         <span>{item!.label}</span>
                       </Link>
                     </li>
