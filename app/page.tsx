@@ -17,9 +17,12 @@ export default async function Home() {
     first: 4,
   });
 
+  // Fetch all tags
+  const tags = await client.queries.tagConnection();
+
   return (
     <Layout rawPageData={data}>
-      <ClientPage {...data} extraPosts={posts.data} />
+      <ClientPage {...data} extraPosts={posts.data} allTags={tags.data} />
     </Layout>
   );
 }

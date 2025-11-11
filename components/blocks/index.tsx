@@ -1,5 +1,5 @@
 import { tinaField } from "tinacms/dist/react";
-import { Page, PageBlocks, PostConnectionQuery } from "../../tina/__generated__/types";
+import { Page, PageBlocks, PostConnectionQuery, TagConnectionQuery } from "../../tina/__generated__/types";
 import { Hero } from "./hero";
 import { Content } from "./content";
 import { Features } from "./features";
@@ -18,14 +18,14 @@ type ExtendedBlock = (PageBlocks & { __typename?: PageBlocks['__typename'] }) | 
   background?: string;
 };
 
-export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPosts?: PostConnectionQuery }) => {
+export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPosts?: PostConnectionQuery; allTags?: TagConnectionQuery }) => {
   if (!props.blocks) return null;
   return (
     <>
       {props.blocks.map(function (block, i) {
         return (
           <div key={i} data-tina-field={tinaField(block)}>
-            <Block {...(block as ExtendedBlock)} extraPosts={props.extraPosts} />
+            <Block {...(block as ExtendedBlock)} extraPosts={props.extraPosts} allTags={props.allTags} />
           </div>
         );
       })}
@@ -33,7 +33,7 @@ export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPos
   );
 };
 
-const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery }) => {
+const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery; allTags?: TagConnectionQuery }) => {
   switch (block.__typename) {
     case "PageBlocksVideo":
       return <Video data={block} />;
@@ -56,7 +56,7 @@ const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery }) => {
     case "PageBlocksRecent":
       return block.extraPosts ? <RecentPosts data={block} extraPosts={block.extraPosts} /> : null;
     case "PageBlocksCategories":
-      return block.extraPosts ? <CategoriesStrip data={block} extraPosts={block.extraPosts} /> : null;
+      return <CategoriesStrip data={block} allTags={block.allTags} />;
     case "PageBlocksNewsletter":
       return <NewsletterSignup data={block} />;
     default:

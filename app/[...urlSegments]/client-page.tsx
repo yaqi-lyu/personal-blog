@@ -13,13 +13,14 @@ export interface ClientPageProps {
   };
   query: string;
   extraPosts?: any;
+  allTags?: any;
 }
 
 export default function ClientPage(props: ClientPageProps) {
   const { data } = useTina({ ...props });
   return (
     <ErrorBoundary>
-      <Blocks {...data?.page} extraPosts={props.extraPosts} />
+      <Blocks {...data?.page} extraPosts={props.extraPosts} allTags={props.allTags} />
     </ErrorBoundary>
   );
 }

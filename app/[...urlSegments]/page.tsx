@@ -24,10 +24,13 @@ export default async function Page({
     notFound();
   }
 
+  // Fetch all tags
+  const tags = await client.queries.tagConnection();
+
   return (
     <Layout rawPageData={data}>
       <Section>
-        <ClientPage {...data} />
+        <ClientPage {...data} allTags={tags.data} />
       </Section>
     </Layout>
   );
