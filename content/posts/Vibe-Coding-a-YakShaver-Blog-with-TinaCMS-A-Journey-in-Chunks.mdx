@@ -1,0 +1,108 @@
+---
+title: 'Vibe Coding a YakShaver Blog with TinaCMS: A Journey in Chunks'
+heroImg: /uploads/posts/hero.png
+excerpt: >
+  Building a modern blog doesn't have to be overwhelming. In this post, I share
+  my journey of "vibe coding" a blog for YakShaver using TinaCMS and
+  Vercel—starting with a cloud-hosted foundation, mapping the entire codebase
+  with AI to create a reusable context, and then building feature by feature in
+  satisfying chunks. No rigid plans, no perfectionism—just continuous forward
+  momentum, one block at a time. Learn how combining TinaCMS's flexible content
+  blocks, Vercel's instant deploys, and AI-assisted development created a
+  workflow that felt less like grinding and more like vibing.
+author: content/authors/Willow.md
+date: 2025-11-12T00:00:00.000Z
+tags:
+  - tag: content/tags/mermaid.mdx
+---
+
+🤖🤖 Let me tell you about how I built a blog for YakShaver using TinaCMS, one vibe at a time. This wasn't about meticulously planning every detail upfront—it was about feeling my way through the code, letting AI guide me, and building in satisfying chunks.
+
+
+
+Starting with the Foundation: TinaCloud + Vercel
+------------------------------------------------
+
+First things first: I needed to get something running. I headed over to TinaCMS and set up a TinaCloud-hosted project, connecting it with Vercel for deployment. The beauty of this combo? TinaCMS handles the content management backend in the cloud, while Vercel takes care of the hosting and deployment. No server management, no backend complexity—just pure focus on building.
+
+The setup was surprisingly smooth. A few clicks, some OAuth connections, and boom—I had a starter template deployed and a CMS dashboard ready to go. That instant gratification hit different. 
+
+
+The AI Code Archaeology Phase
+-----------------------------
+
+
+Here's where the vibe coding really started. Instead of diving into the starter template blindly, I did something that felt almost like cheating (but isn't): I fed the entire codebase to AI and asked it to map out the structure and architecture for me.
+
+
+The AI came back with a beautiful breakdown: where the TinaCMS schema lived, how the page components were structured, where the content queries happened, how the build process worked. I took all of this and turned it into a context document—basically a living map of the codebase that I could reference (and have AI reference) for every coding task moving forward.
+
+This became my north star. Instead of constantly re-explaining the project structure to AI or forgetting how things connected, I had this context ready to paste in. "Here's the architecture, now help me add this feature" became my standard opening move.
+
+
+
+## Dreaming Up the Sections
+
+
+With my foundation solid and my AI context ready, I started vibing on what the YakShaver blog should actually contain. I sketched out the sections I wanted:
+
+*  A hero section that immediately tells visitors what YakShaver is about
+* A featured projects showcase
+* A blog post listing
+* Maybe a newsletter signup
+
+
+
+Nothing revolutionary, but each section needed its own personality, its own vibe.
+
+
+
+## Building in Chunks: The Homepage Blocks
+
+
+
+This is where TinaCMS really shines, and where my chunk-by-chunk approach felt \*right\*.
+
+TinaCMS uses a blocks-based system—each section of your page is a reusable, editable block. So instead of trying to build the entire homepage in one marathon session, I built one block at a time:
+
+
+
+**Chunk 1: The Hero Block**
+
+
+I started with the hero. It generated the schema definition, the component, and showed me how to register it. I tweaked the styling until it felt right, deployed, and checked it in the CMS. Satisfying.
+
+
+
+**Chunk 2: The Featured Projects Block**
+
+
+Next up: showcasing projects. Same process—feed the context to AI, describe what I wanted (a grid of project cards with images, titles, and descriptions), and let it scaffold the block structure. I iterated on the layout, made the cards responsive, added some hover effects. Another chunk done.
+
+
+
+**Chunk 3: Blog Listing Block**
+
+
+For the blog posts, I needed to query the content collection. AI helped me set up the GraphQL query to fetch recent posts, create the listing component, and make each post card look clean. The beautiful thing? TinaCMS auto-generates the query system, so I was just connecting dots.
+
+Each chunk took maybe 30-60 minutes. Build, test, deploy, admire. Then take a break. Come back refreshed for the next chunk.
+
+
+
+
+
+
+
+
+
+## What I Learned
+
+
+
+Building this way taught me that modern web development doesn't have to be overwhelming. You don't need to hold the entire system in your head. You don't need to build everything at once.
+
+TinaCMS gave me the structure. Vercel gave me the instant deploys. AI gave me the velocity. But the vibe? That was all about trusting the process, building in chunks, and letting each piece inform the next.
+
+The YakShaver blog came together not because I had a perfect plan, but because I vibed my way through it, one satisfying chunk at a time.
+
