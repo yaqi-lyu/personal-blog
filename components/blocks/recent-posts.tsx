@@ -89,7 +89,7 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
           {posts.map((p) => (
             <Card 
               key={p.id} 
-              className={`group relative border backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+              className={`group gap-2 relative border backdrop-blur-sm p-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
                 isGrayBg
                   ? 'border-red-900/30 bg-[#1a1a1a] hover:border-red-700/50 hover:shadow-xl hover:shadow-red-900/30 rounded-xl'
                   : 'border-zinc-800/50 bg-zinc-950/80 hover:border-red-700/40 hover:shadow-xl hover:shadow-red-900/20'

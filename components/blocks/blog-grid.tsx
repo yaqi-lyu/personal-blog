@@ -192,18 +192,16 @@ export const BlogGrid = ({ data, extraPosts, allTags, searchQuery = '' }: BlogGr
               {displayedPosts.map((post) => (
                 <Card
                   key={post.id}
-                  className="group relative border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm transition-all duration-300 hover:border-red-700/40 hover:shadow-lg hover:shadow-red-900/20 rounded-lg overflow-hidden flex flex-col"
+                  className="group relative gap-2 border border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm transition-all duration-300 hover:border-red-700/40 hover:shadow-lg hover:shadow-red-900/20 rounded-lg overflow-hidden flex flex-col"
                 >
                   {/* Image */}
                   {post.heroImg && (
-                    <Link href={post.url} className="block relative overflow-hidden h-40">
+                    <Link href={post.url} className="block relative overflow-hidden -mt-6 -mx-6">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                      <Image
-                        width={400}
-                        height={225}
+                      <img
                         src={post.heroImg}
                         alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full object-cover aspect-[16/9] transition-transform duration-500 group-hover:scale-110 border-b border-zinc-800/50"
                       />
                     </Link>
                   )}
