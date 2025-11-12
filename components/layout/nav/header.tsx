@@ -11,10 +11,10 @@ export const Header = () => {
   const header = globalSettings!.header!;
 
   const [menuState, setMenuState] = React.useState(false)
-  const headerTheme = header?.theme || {};
+  const headerTheme = (header?.theme as any) || {};
 
   // Determine if we have a custom background color
-  const hasCustomBg = headerTheme.background;
+  const hasCustomBg = headerTheme?.background;
   const bgClass = hasCustomBg
     ? "bg-[var(--header-bg)]/95 backdrop-blur-xl"
     : "bg-background/50 backdrop-blur-3xl";
