@@ -224,14 +224,22 @@ export default function PostClientPage(props: ClientPostProps) {
         </Section>
 
         {/* Content Area with Sidebar */}
-        <div className="bg-[#222222]">
-          <div className="container max-w-7xl mx-auto px-4 py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="bg-[#222222]" style={{ overflow: 'visible' }}>
+          <div className="container max-w-7xl mx-auto px-4 py-12" style={{ overflow: 'visible' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" style={{ overflow: 'visible' }}>
               {/* Table of Contents - Sidebar */}
               {headings.length > 0 && (
-                <aside className="lg:col-span-3 hidden lg:block">
-                  <div className="sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
-                    <div className="p-5 bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg">
+                <aside className="lg:col-span-3 hidden lg:block" style={{ overflow: 'visible' }}>
+                  <div
+                    className="sticky top-24 self-start"
+                    style={{
+                      position: 'sticky',
+                      top: '6rem',
+                      zIndex: 10,
+                      maxHeight: 'calc(100vh - 8rem)'
+                    }}
+                  >
+                    <div className="p-5 bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg max-h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-4">
                         <BookOpen size={18} className="text-red-400" />
                         <h3 className="font-bold text-white">Table of Contents</h3>

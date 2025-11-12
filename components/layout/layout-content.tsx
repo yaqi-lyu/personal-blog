@@ -24,7 +24,7 @@ export function LayoutContent({ children, globalSettings, pageData, isBlog }: La
     <div className={wrapperClass} style={wrapperStyle}>
       <LayoutProvider globalSettings={globalSettings} pageData={pageData}>
         <Header />
-        <main className="overflow-x-hidden pt-16">
+        <main className="pt-16">
           {children}
         </main>
         <Footer />
