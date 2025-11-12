@@ -8,48 +8,59 @@ import { PageBlocksRecent, PostConnectionQuery } from '@/tina/__generated__/type
 import type { Template } from 'tinacms';
 import { sectionBlockSchemaField } from '../layout/section';
 import { tinaField } from 'tinacms/dist/react';
-import { cn } from '@/lib/utils';
-
-const tagColorClasses = {
-  default: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
-  blue: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  green: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  red: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-  yellow: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  purple: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  pink: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
-  indigo: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
-};
 
 export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extraPosts?: PostConnectionQuery }) => {
-  const count = data.count || 3;
-
   const posts = useMemo(() => {
+    // Array to hold the selected posts
+    const selectedPostIds = [data.post1, data.post2, data.post3].filter(Boolean);
+
+    // If no posts are selected, return empty array
+    if (selectedPostIds.length === 0) return [];
+
     const edges = extraPosts?.postConnection?.edges || [];
-    const allPosts = edges.map((edge) => edge?.node).filter(Boolean);
-    return allPosts
-      .map((post) => {
-        const date = new Date(post!.date!);
+    const selectedPosts: any[] = [];
+
+    // Find each selected post
+    selectedPostIds.forEach((postRef) => {
+      const postRefStr = typeof postRef === 'string' ? postRef : (postRef as any)?.id;
+      if (!postRefStr) return;
+
+      const matchedPost = edges.find(edge => {
+        const edgeNode = edge?.node;
+        if (!edgeNode) return false;
+
+        const fullPath = `content/posts/${edgeNode._sys.relativePath}`;
+
+        return (
+          edgeNode.id === postRefStr ||
+          edgeNode._sys.relativePath === postRefStr ||
+          fullPath === postRefStr ||
+          postRefStr.endsWith(edgeNode._sys.relativePath)
+        );
+      })?.node;
+
+      if (matchedPost) {
+        const date = new Date(matchedPost.date!);
         const published = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
-        return {
-          id: post!.id,
-          title: post!.title,
-          url: `/posts/${post!._sys.breadcrumbs!.join('/')}`,
-          heroImg: post!.heroImg as string | undefined,
-          excerpt: post!.excerpt,
-          tags: (post!.tags || []).map(t => ({
+        selectedPosts.push({
+          id: matchedPost.id,
+          title: matchedPost.title,
+          url: `/posts/${matchedPost._sys.breadcrumbs!.join('/')}`,
+          heroImg: matchedPost.heroImg as string | undefined,
+          excerpt: matchedPost.excerpt,
+          tags: (matchedPost.tags || []).map(t => ({
             name: t?.tag?.name || '',
             color: t?.tag?.color || 'default',
           })).filter(t => t.name),
-          author: post!.author?.name || 'Anonymous',
+          author: matchedPost.author?.name || 'Anonymous',
           published,
-          rawDate: date.getTime(), // Store raw timestamp for sorting
-          readingMins: Math.max(1, Math.round((JSON.stringify(post!.excerpt ?? '').split(/\s+/).length || 200) / 200)),
-        };
-      })
-      .sort((a, b) => b.rawDate - a.rawDate) // Sort newest first
-      .slice(0, count);
-  }, [extraPosts, count]);
+          readingMins: Math.max(1, Math.round((JSON.stringify(matchedPost.excerpt ?? '').split(/\s+/).length || 200) / 200)),
+        });
+      }
+    });
+
+    return selectedPosts;
+  }, [extraPosts, data.post1, data.post2, data.post3]);
 
   if (!posts?.length) return null;
 
@@ -118,7 +129,7 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
                 
                 {data.showTags && p.tags?.length ? (
                   <div className="flex flex-wrap gap-1.5">
-                    {p.tags.map((t) => (
+                    {p.tags.map((t: typeof p.tags[0]) => (
                       <Link
                         key={t.name}
                         href={`/posts?tag=${encodeURIComponent(t.name)}`}
@@ -144,13 +155,12 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
 
 export const recentBlockSchema: Template = {
   name: 'recent',
-  label: 'Recent Posts',
+  label: "Editor's Pick",
   ui: {
     previewSrc: '/blocks/content.png',
     defaultItem: {
-      title: 'Recent Articles',
+      title: "Editor's Pick",
       description: '',
-      count: 3,
       showTags: true,
     },
   },
@@ -160,7 +170,7 @@ export const recentBlockSchema: Template = {
       type: 'string',
       label: 'Title',
       name: 'title',
-      description: 'The heading for the recent posts section',
+      description: 'The heading for the editor pick section',
     },
     {
       type: 'string',
@@ -172,14 +182,25 @@ export const recentBlockSchema: Template = {
       },
     },
     {
-      type: 'number',
-      label: 'Number of Posts',
-      name: 'count',
-      description: 'How many recent posts to display (default: 3)',
-      ui: {
-        min: 1,
-        max: 12,
-      },
+      type: 'reference',
+      label: 'First Post',
+      name: 'post1',
+      description: 'Select the first post to feature',
+      collections: ['post'],
+    },
+    {
+      type: 'reference',
+      label: 'Second Post',
+      name: 'post2',
+      description: 'Select the second post to feature',
+      collections: ['post'],
+    },
+    {
+      type: 'reference',
+      label: 'Third Post',
+      name: 'post3',
+      description: 'Select the third post to feature',
+      collections: ['post'],
     },
     {
       type: 'boolean',
