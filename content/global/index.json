@@ -6,19 +6,15 @@
       "style": "float"
     },
     "name": "",
-    "color": "primary",
     "theme": {
       "background": "#222222",
       "foreground": "#ffffff"
     },
+    "color": "primary",
     "nav": [
       {
         "href": "/",
         "label": "Home"
-      },
-      {
-        "href": "/posts",
-        "label": "Blog"
       }
     ]
   },

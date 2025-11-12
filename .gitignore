@@ -29,3 +29,4 @@ yarn-error.log*
 .tina/__generated__
 
 CLAUDE.md
+.CLAUDE

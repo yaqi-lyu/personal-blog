@@ -9,6 +9,7 @@ import { statsBlockSchema } from '@/components/blocks/stats';
 import { ctaBlockSchema } from '@/components/blocks/call-to-action';
 import { featuredBlockSchema } from '@/components/blocks/featured-post';
 import { recentBlockSchema } from '@/components/blocks/recent-posts';
+import { blogGridBlockSchema } from '@/components/blocks/blog-grid';
 import { categoriesBlockSchema } from '@/components/blocks/categories-strip';
 import { newsletterBlockSchema } from '@/components/blocks/newsletter-signup';
 
@@ -46,6 +47,7 @@ const Page: Collection = {
         videoBlockSchema,
         featuredBlockSchema,
         recentBlockSchema,
+        blogGridBlockSchema,
         categoriesBlockSchema,
         newsletterBlockSchema,
       ],

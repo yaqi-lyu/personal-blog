@@ -11,10 +11,10 @@ export default async function Home() {
     relativePath: `home.mdx`,
   });
 
-  // Fetch posts (first 12 to allow flexibility for featured + recent blocks)
+  // Fetch all posts (blog grid needs complete list for search/filtering)
   const posts = await client.queries.postConnection({
     sort: 'date',
-    first: 12,
+    first: 100, // Increased to get more posts for blog grid
   });
 
   // Fetch all tags

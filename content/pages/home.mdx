@@ -2,26 +2,29 @@
 title: YakShaver
 blocks:
   - background: 'bg-[#000000]'
-    headline: Welcome to YakShaver
-    tagline: 'Pragmatic engineering, sharp tools, and fewer yaks to shave'
-    actions:
-      - label: Read Posts
-        type: button
-        icon:
-          name: BiBookReader
-          color: red
-          style: float
-        link: /posts
+    headline: YakShaver Blog
+    tagline: >-
+      Practical engineering notes, patterns, and templates. So you can ship
+      faster with fewer yaks.
+    enableSearch: true
     _template: hero
-  - background: 'bg-[#222222]'
-    badgeColor: red
-    _template: categories
   - background: 'bg-[#222222]'
     post: content/posts/learning-about-components.mdx
     _template: featured
   - background: 'bg-[#222222]'
-    count: 3
-    showTags: true
-    _template: recent
+    title: All Articles
+    description: ''
+    showCategories: true
+    postsPerPage: 3
+    badgeColor: red
+    _template: blog_grid
+  - background: 'bg-[#222222]'
+    title: Subscribe to our newsletter
+    description: Get the latest updates and articles delivered to your inbox.
+    placeholder: you@example.com
+    buttonText: Sign up
+    successMessage: Thanks for subscribing!
+    errorMessage: Please enter a valid email.
+    _template: newsletter
 ---
 

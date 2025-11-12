@@ -28,7 +28,6 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
     const edges = extraPosts?.postConnection?.edges || [];
     const allPosts = edges.map((edge) => edge?.node).filter(Boolean);
     return allPosts
-      .slice(0, count)
       .map((post) => {
         const date = new Date(post!.date!);
         const published = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
@@ -44,9 +43,12 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
           })).filter(t => t.name),
           author: post!.author?.name || 'Anonymous',
           published,
+          rawDate: date.getTime(), // Store raw timestamp for sorting
           readingMins: Math.max(1, Math.round((JSON.stringify(post!.excerpt ?? '').split(/\s+/).length || 200) / 200)),
         };
-      });
+      })
+      .sort((a, b) => b.rawDate - a.rawDate) // Sort newest first
+      .slice(0, count);
   }, [extraPosts, count]);
 
   if (!posts?.length) return null;
