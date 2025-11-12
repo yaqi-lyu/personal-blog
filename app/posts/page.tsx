@@ -10,7 +10,7 @@ export default async function PostsPage({
   searchParams: Promise<{ tag?: string }>;
 }) {
   const { tag } = await searchParams;
-  
+
   let posts = await client.queries.postConnection({
     sort: 'date',
     last: 1
@@ -34,9 +34,14 @@ export default async function PostsPage({
     allPosts.data.postConnection.edges.push(...posts.data.postConnection.edges.reverse());
   }
 
+  // Fetch all tags
+  const tagsData = await client.queries.tagConnection({
+    first: 100,
+  });
+
   return (
     <Layout rawPageData={allPosts.data}>
-      <PostsClientPage {...allPosts} selectedTag={tag} />
+      <PostsClientPage {...allPosts} selectedTag={tag} allTags={tagsData.data.tagConnection} />
     </Layout>
   );
 }

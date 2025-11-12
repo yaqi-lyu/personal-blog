@@ -134,7 +134,7 @@ export const Hero = ({ data, searchQuery = "", setSearchQuery }: { data: PageBlo
                 value={localSearchQuery}
                 onChange={(e) => setLocalSearchQuery(e.target.value)}
                 placeholder="Search posts by title, tag, or excerpt..."
-                className="w-full rounded-md border bg-black px-4 py-2 text-base text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-md border bg-black px-4 py-2 text-base text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 transition-all"
                 aria-label="Search posts"
               />
             </div>

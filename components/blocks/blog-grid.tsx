@@ -265,12 +265,12 @@ export const BlogGrid = ({ data, extraPosts, allTags, searchQuery = '' }: BlogGr
             {/* Show More Button */}
             {hasMorePosts && (
               <div className="flex justify-center pt-4">
-                <button
-                  onClick={handleLoadMore}
-                  className="px-8 py-3 font-semibold text-white bg-gradient-to-r from-red-700 to-red-900 rounded-lg transition-all duration-300 hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:shadow-red-900/50 hover:scale-105"
+                <Link
+                  href="/posts"
+                  className="px-8 py-3 font-semibold text-white bg-gradient-to-r from-red-700 to-red-900 rounded-lg transition-all duration-300 hover:from-red-600 hover:to-red-800 hover:shadow-lg hover:shadow-red-900/50 hover:scale-105 inline-block"
                 >
-                  Show More
-                </button>
+                  View All Posts
+                </Link>
               </div>
             )}
           </>
