@@ -36,46 +36,61 @@ export default function PostClientPage(props: ClientPostProps) {
     return Math.max(1, Math.round(words / 200));
   }, [post._body]);
 
+  // Helper to generate ID from text (must match mdx-components.tsx)
+  const generateHeadingId = (text: string): string => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  };
+
+  // Helper to extract text from node
+  const extractHeadingText = (node: any): string => {
+    if (typeof node === 'string') return node;
+    if (!node) return '';
+
+    let text = '';
+
+    if (node.type === 'text') {
+      text += node.text || '';
+    }
+
+    if (node.children && Array.isArray(node.children)) {
+      node.children.forEach((child: any) => {
+        text += extractHeadingText(child);
+      });
+    }
+
+    return text;
+  };
+
   // Extract headings for TOC from TinaCMS rich-text structure
   const headings = useMemo(() => {
     const extractedHeadings: { id: string; text: string; level: number }[] = [];
-    
+
     const extractHeadingsFromNode = (node: any) => {
       if (!node) return;
-      
+
       if (node.type === 'h1' || node.type === 'h2' || node.type === 'h3' || node.type === 'h4' || node.type === 'h5' || node.type === 'h6') {
         const level = parseInt(node.type.substring(1));
-        let text = '';
-        
-        // Extract text from children
-        if (node.children) {
-          node.children.forEach((child: any) => {
-            if (child.type === 'text') {
-              text += child.text;
-            }
-          });
-        }
-        
+        const text = extractHeadingText(node);
+
         if (text) {
-          const id = text
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '');
-          
+          const id = generateHeadingId(text);
           extractedHeadings.push({ id, text, level });
         }
       }
-      
+
       // Recursively check children
       if (node.children && Array.isArray(node.children)) {
         node.children.forEach((child: any) => extractHeadingsFromNode(child));
       }
     };
-    
+
     if (post._body && Array.isArray(post._body.children)) {
       post._body.children.forEach((node: any) => extractHeadingsFromNode(node));
     }
-    
+
     return extractedHeadings;
   }, [post._body]);
 
@@ -209,13 +224,13 @@ export default function PostClientPage(props: ClientPostProps) {
         </Section>
 
         {/* Content Area with Sidebar */}
-        <Section>
-          <div className="container max-w-7xl mx-auto px-4 pb-16">
+        <div className="bg-[#222222]">
+          <div className="container max-w-7xl mx-auto px-4 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Table of Contents - Sidebar */}
               {headings.length > 0 && (
                 <aside className="lg:col-span-3 hidden lg:block">
-                  <div className="sticky top-24">
+                  <div className="sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
                     <div className="p-5 bg-[#1a1a1a] backdrop-blur-sm border border-red-900/20 rounded-lg">
                       <div className="flex items-center gap-2 mb-4">
                         <BookOpen size={18} className="text-red-400" />
@@ -223,23 +238,21 @@ export default function PostClientPage(props: ClientPostProps) {
                       </div>
                       <nav className="space-y-2">
                         {headings.map((heading) => (
-                          <a
+                          <button
                             key={heading.id}
-                            href={`#${heading.id}`}
                             onClick={(e) => {
                               e.preventDefault();
                               const element = document.getElementById(heading.id);
                               if (element) {
                                 const offset = 100;
-                                const elementPosition = element.getBoundingClientRect().top;
-                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                const elementPosition = element.getBoundingClientRect().top + window.scrollY;
                                 window.scrollTo({
-                                  top: offsetPosition,
+                                  top: elementPosition - offset,
                                   behavior: 'smooth'
                                 });
                               }
                             }}
-                            className={`block text-sm transition-colors ${
+                            className={`block w-full text-left text-sm transition-colors py-1 cursor-pointer ${
                               activeHeading === heading.id
                                 ? 'text-red-400 font-semibold'
                                 : 'text-gray-400 hover:text-red-400'
@@ -247,7 +260,7 @@ export default function PostClientPage(props: ClientPostProps) {
                             style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                           >
                             {heading.text}
-                          </a>
+                          </button>
                         ))}
                       </nav>
                     </div>
@@ -297,7 +310,7 @@ export default function PostClientPage(props: ClientPostProps) {
               </article>
             </div>
           </div>
-        </Section>
+        </div>
 
         {/* Related Articles */}
         {relatedPostsData.length > 0 && (

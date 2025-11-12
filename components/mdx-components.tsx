@@ -17,25 +17,60 @@ const generateId = (text: string): string => {
 
 // Helper function to extract text from TinaMarkdown content
 const extractText = (children: any): string => {
+  if (!children) return '';
   if (typeof children === 'string') return children;
+  if (typeof children === 'number') return String(children);
+
   if (Array.isArray(children)) {
     return children.map(extractText).join('');
   }
-  if (children?.props?.children) {
-    return extractText(children.props.children);
+
+  // Handle React elements
+  if (React.isValidElement(children)) {
+    // Check if it's a TinaMarkdown component with content prop
+    if ((children as any).props?.content) {
+      // Content is an array of text nodes
+      return extractText((children as any).props.content);
+    }
+    // Otherwise extract from children
+    return extractText((children as any).props?.children);
   }
+
+  // Handle TinaCMS content nodes with text property
+  if ((children as any)?.type === 'text' && (children as any)?.text) {
+    return (children as any).text;
+  }
+
+  // Handle objects with children property
+  if ((children as any)?.props?.children) {
+    return extractText((children as any).props.children);
+  }
+
+  // Handle objects with text property (TinaCMS format)
+  if ((children as any)?.text && typeof (children as any).text === 'string') {
+    return (children as any).text;
+  }
+
+  // Handle objects with value property
+  if ((children as any)?.value) {
+    return String((children as any).value);
+  }
+
   return '';
 };
 
 // Custom heading components with IDs
 const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
-  return (props: any) => {
+  const HeadingComponent = (props: any) => {
     const text = extractText(props.children);
     const id = generateId(text);
     const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-    
-    return React.createElement(Tag, { id }, props.children);
+
+    return React.createElement(Tag, { id, 'data-heading-id': id, className: 'scroll-mt-24' }, props.children);
   };
+
+  HeadingComponent.displayName = `Heading${level}`;
+  return HeadingComponent;
 };
 
 export const components: Components<{
