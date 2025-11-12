@@ -44,7 +44,7 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
     }
     
     if (!node) return null;
-    
+
     const date = new Date(node.date!);
     const published = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
     return {
@@ -55,7 +55,7 @@ export const FeaturedPost = ({ data, extraPosts }: { data: PageBlocksFeatured; e
       excerpt: node.excerpt,
       author: node.author?.name || 'Anonymous',
       published,
-      readingMins: Math.max(1, Math.round((JSON.stringify(node.excerpt ?? '').split(/\s+/).length || 400) / 200)),
+      readingMins: Math.max(1, Math.round((JSON.stringify(node._body ?? '').split(/\s+/).length || 400) / 200)),
     };
   }, [extraPosts, data.post]);
 

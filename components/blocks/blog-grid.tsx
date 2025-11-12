@@ -69,7 +69,7 @@ export const BlogGrid = ({ data, extraPosts, allTags, searchQuery = '' }: BlogGr
             name: post.author?.name || 'Anonymous',
             avatar: post.author?.avatar,
           },
-          readingMins: Math.max(1, Math.round((JSON.stringify(post.excerpt ?? '').split(/\s+/).length || 200) / 200)),
+          readingMins: Math.max(1, Math.round((JSON.stringify(post._body ?? '').split(/\s+/).length || 200) / 200)),
         };
       })
       .filter((post): post is NonNullable<typeof post> => post !== null)

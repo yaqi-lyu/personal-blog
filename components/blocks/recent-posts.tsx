@@ -54,7 +54,7 @@ export const RecentPosts = ({ data, extraPosts }: { data: PageBlocksRecent; extr
           })).filter(t => t.name),
           author: matchedPost.author?.name || 'Anonymous',
           published,
-          readingMins: Math.max(1, Math.round((JSON.stringify(matchedPost.excerpt ?? '').split(/\s+/).length || 200) / 200)),
+          readingMins: Math.max(1, Math.round((JSON.stringify(matchedPost._body ?? '').split(/\s+/).length || 200) / 200)),
         });
       }
     });
