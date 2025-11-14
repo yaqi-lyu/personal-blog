@@ -1,11 +1,11 @@
 {
   "header": {
     "icon": {
-      "name": "YakShaver",
+      "name": "Tina",
       "color": "red",
       "style": "float"
     },
-    "name": "",
+    "name": "TinaCMS",
     "theme": {
       "background": "#222222",
       "foreground": "#ffffff"
@@ -15,6 +15,10 @@
       {
         "href": "/",
         "label": "Home"
+      },
+      {
+        "href": "/about",
+        "label": "About Me"
       },
       {
         "href": "/posts",
