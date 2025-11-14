@@ -20,6 +20,12 @@ export const Footer = () => {
       <div className="w-full border-t">
         <div className="w-full px-6 py-6 mx-auto max-w-7xl flex flex-wrap items-center gap-6 flex-col md:flex-row md:justify-between">
           <div className="flex justify-center md:justify-start">
+            <Link href="/" aria-label="go home">
+              <Icon
+                parentColor={header!.color!}
+                data={header!.icon}
+              />
+            </Link>
             <span className="self-center text-muted-foreground text-sm">© {new Date().getFullYear()} {header?.name || 'YakShaver'}, All rights reserved</span>
           </div>
 
