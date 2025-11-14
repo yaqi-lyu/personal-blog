@@ -12,20 +12,21 @@ interface LayoutState {
   theme: GlobalQuery["global"]["theme"];
 }
 
-const LayoutContext = React.createContext<LayoutState | undefined>(undefined);
+const defaultLayoutState: LayoutState = {
+  theme: {
+    color: "blue",
+    darkMode: "default",
+  },
+  globalSettings: undefined,
+  pageData: undefined,
+  setGlobalSettings: () => {},
+  setPageData: () => {},
+};
+
+const LayoutContext = React.createContext<LayoutState>(defaultLayoutState);
 
 export const useLayout = () => {
-  const context = useContext(LayoutContext);
-  return (
-    context || {
-      theme: {
-        color: "blue",
-        darkMode: "default",
-      },
-      globalSettings: undefined,
-      pageData: undefined,
-    }
-  );
+  return useContext(LayoutContext);
 };
 
 interface LayoutProviderProps {

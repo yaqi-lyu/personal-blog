@@ -11,8 +11,23 @@ import { sectionBlockSchemaField } from '../layout/section';
 import { scriptCopyBlockSchema, ScriptCopyBtn } from '../magicui/script-copy-btn';
 
 export const Content = ({ data }: { data: PageBlocksContent }) => {
+  // Determine if background is dark
+  const bgClass = data.background || 'bg-default';
+  const isDark =
+    typeof bgClass === 'string' &&
+    (bgClass.includes('bg-black') ||
+     bgClass.includes('bg-zinc-900') ||
+     bgClass.includes('bg-neutral-900') ||
+     bgClass.includes('bg-[#222222]') ||
+     bgClass.includes('bg-[#1a1a1a]') ||
+     bgClass.includes('bg-[#000000]'));
+
+  const proseClasses = isDark
+    ? 'prose prose-lg prose-invert'
+    : 'prose prose-lg';
+
   return (
-    <Section background={data.background!} className='prose prose-lg' data-tina-field={tinaField(data, 'body')}>
+    <Section background={data.background!} className={proseClasses} data-tina-field={tinaField(data, 'body')}>
       <TinaMarkdown
         content={data.body}
         components={{

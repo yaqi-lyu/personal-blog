@@ -23,13 +23,15 @@ export default function ClientPage(props: ClientPageProps) {
 
   return (
     <ErrorBoundary>
-      <Blocks
-        {...data?.page as any}
-        extraPosts={props.extraPosts}
-        allTags={props.allTags}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
+      <div className="min-h-screen bg-[#222222]">
+        <Blocks
+          {...data?.page as any}
+          extraPosts={props.extraPosts}
+          allTags={props.allTags}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      </div>
     </ErrorBoundary>
   );
 }

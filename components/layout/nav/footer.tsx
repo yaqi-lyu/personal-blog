@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { Icon } from "../../icon";
 import { useLayout } from "../layout-context";
@@ -7,6 +7,7 @@ import { useLayout } from "../layout-context";
 export const Footer = () => {
   const { globalSettings } = useLayout();
   const { header, footer } = globalSettings!;
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
   const footerTheme = (footer?.theme || {}) as { background?: string; foreground?: string };
 
   return (
@@ -26,7 +27,7 @@ export const Footer = () => {
                 data={header!.icon}
               />
             </Link>
-            <span className="self-center text-muted-foreground text-sm">© {new Date().getFullYear()} {header?.name || 'YakShaver'}, All rights reserved</span>
+            <span className="self-center text-muted-foreground text-sm">© {currentYear} {header?.name || 'YakShaver'}, All rights reserved</span>
           </div>
 
           <div className="flex justify-center gap-6 text-sm md:justify-end">

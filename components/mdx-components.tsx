@@ -137,12 +137,12 @@ export const components: Components<{
   },
   NewsletterSignup: (props) => {
     return (
-      <div className='bg-zinc-950 py-8' suppressHydrationWarning>
+      <div className='bg-zinc-950 py-8'>
         <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4'>
           <div className='text-gray-200'>
             <TinaMarkdown content={props.children} />
           </div>
-          <form className='flex flex-col sm:flex-row gap-3' suppressHydrationWarning>
+          <form className='flex flex-col sm:flex-row gap-3'>
             <label htmlFor='email-address' className='sr-only'>
               Email address
             </label>
@@ -154,12 +154,10 @@ export const components: Components<{
               required
               className='flex-1 px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600'
               placeholder={props.placeholder}
-              suppressHydrationWarning
             />
             <button
               type='submit'
               className='px-6 py-2 bg-gradient-to-r from-red-700 to-red-900 text-white font-medium rounded-md hover:from-red-600 hover:to-red-800 transition-all duration-300 whitespace-nowrap'
-              suppressHydrationWarning
             >
               {props.buttonText}
             </button>

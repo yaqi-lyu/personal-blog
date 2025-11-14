@@ -27,8 +27,10 @@ export default function PostClientPage(props: ClientPostProps) {
   const post = data.post;
   const [activeHeading, setActiveHeading] = useState('');
 
-  const date = new Date(post.date!);
-  const formattedDate = isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
+  const formattedDate = useMemo(() => {
+    const date = new Date(post.date!);
+    return isNaN(date.getTime()) ? '' : format(date, 'MMM dd, yyyy');
+  }, [post.date]);
   
   // Calculate reading time
   const readingTime = useMemo(() => {
@@ -350,16 +352,16 @@ export default function PostClientPage(props: ClientPostProps) {
                         </div>
                       )}
                     </div>
-                    <div className="p-5 space-y-3" suppressHydrationWarning>
+                    <div className="p-5 space-y-3">
                       <h3 className="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors line-clamp-2">
                         {related.title}
                       </h3>
                       <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <span suppressHydrationWarning>{related.date}</span>
+                        <span>{related.date}</span>
                         <span className="text-zinc-700">•</span>
-                        <span suppressHydrationWarning>{related.author}</span>
+                        <span>{related.author}</span>
                         <span className="text-zinc-700">•</span>
-                        <span suppressHydrationWarning>{related.readingTime} min read</span>
+                        <span>{related.readingTime} min read</span>
                       </div>
                       {related.tags?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
@@ -372,7 +374,6 @@ export default function PostClientPage(props: ClientPostProps) {
                                 window.location.href = `/posts?tag=${encodeURIComponent(tag)}`;
                               }}
                               className="px-2 py-0.5 text-xs font-medium bg-red-950/40 border border-red-800/40 rounded text-red-400 transition-all duration-200 hover:bg-red-900/50 hover:border-red-600/60 hover:text-red-300"
-                              suppressHydrationWarning
                             >
                               {tag}
                             </button>
