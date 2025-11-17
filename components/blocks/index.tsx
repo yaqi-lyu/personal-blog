@@ -13,6 +13,7 @@ import { RecentPosts } from "./recent-posts";
 import { BlogGrid } from "./blog-grid";
 import { CategoriesStrip } from "./categories-strip";
 import { NewsletterSignup } from "./newsletter-signup";
+import { ImageBlock } from "./image";
 
 type ExtendedBlock = PageBlocks | PageBlocksFeatured | PageBlocksRecent | PageBlocksCategories | PageBlocksNewsletter | PageBlocksBlog_Grid;
 
@@ -69,6 +70,8 @@ const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery; allTag
       return <CategoriesStrip data={block as PageBlocksCategories} allTags={block.allTags} />;
     case "PageBlocksNewsletter":
       return <NewsletterSignup data={block as PageBlocksNewsletter} />;
+    case "PageBlocksImage":
+      return <ImageBlock data={block as any} />;
     default:
       return null;
   }

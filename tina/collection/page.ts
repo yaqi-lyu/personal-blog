@@ -12,6 +12,7 @@ import { recentBlockSchema } from '@/components/blocks/recent-posts';
 import { blogGridBlockSchema } from '@/components/blocks/blog-grid';
 import { categoriesBlockSchema } from '@/components/blocks/categories-strip';
 import { newsletterBlockSchema } from '@/components/blocks/newsletter-signup';
+import { imageBlockSchema } from '@/components/blocks/image';
 
 const Page: Collection = {
   label: 'Pages',
@@ -45,6 +46,7 @@ const Page: Collection = {
         contentBlockSchema,
         testimonialBlockSchema,
         videoBlockSchema,
+        imageBlockSchema,
         featuredBlockSchema,
         recentBlockSchema,
         blogGridBlockSchema,
