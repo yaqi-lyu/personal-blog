@@ -126,7 +126,7 @@ export default function PostClientPage(props: ClientPostProps) {
         const p = edge?.node;
         if (!p) return null;
         const postDate = new Date(p.date!);
-        const readingTime = Math.max(1, Math.round((JSON.stringify(p.excerpt ?? '').split(/\s+/).length || 200) / 200));
+        const readingTime = Math.max(1, Math.round((JSON.stringify(p._body ?? '').split(/\s+/).length || 200) / 200));
         return {
           id: p.id,
           title: p.title,
