@@ -1,11 +1,10 @@
 {
   "header": {
     "icon": {
-      "name": "Tina",
       "color": "red",
       "style": "float"
     },
-    "name": "TinaCMS",
+    "name": "Willow Notes",
     "theme": {
       "background": "#222222",
       "foreground": "#ffffff"
