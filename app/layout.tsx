@@ -25,11 +25,11 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "YakShaver Blog",
-  description: "YakShaver Blog - Thoughts and insights",
+  title: "Willow Notes",
+  description: "Willow Notes - Thoughts and insights",
   icons: {
-    icon: '/yakshaver.ico',
-    apple: '/yakshaver.ico',
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
   },
 };
 
