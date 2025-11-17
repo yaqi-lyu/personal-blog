@@ -14,6 +14,7 @@ interface LayoutState {
 
 const defaultLayoutState: LayoutState = {
   theme: {
+    __typename: "GlobalTheme",
     color: "blue",
     darkMode: "default",
   },
