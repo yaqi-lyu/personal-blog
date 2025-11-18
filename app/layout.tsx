@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   title: "Willow Notes",
   description: "Willow Notes - Thoughts and insights",
   icons: {
-    icon: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/willow.png',
+    apple: '/willow.png',
   },
 };
 
