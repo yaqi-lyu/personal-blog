@@ -26,7 +26,7 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: "Willow Notes",
-  description: "Willow Notes - Thoughts and insights",
+  description: "Willow Notes - Personal reflections and notes from my everyday learning.",
   icons: {
     icon: '/willow.png',
     apple: '/willow.png',
