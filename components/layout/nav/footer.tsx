@@ -27,7 +27,7 @@ export const Footer = () => {
                 data={header!.icon}
               />
             </Link>
-            <span className="self-center text-muted-foreground text-sm">© {new Date().getFullYear()} {header?.name || 'YakShaver'}, All rights reserved</span>
+            <span className="self-center text-muted-foreground text-sm">© {currentYear} {header?.name || 'YakShaver'}, All rights reserved</span>
           </div>
 
           <Link href="https://tina.io" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-all whitespace-nowrap group">
