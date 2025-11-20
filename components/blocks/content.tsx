@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import type { Template } from 'tinacms';
@@ -26,15 +27,43 @@ export const Content = ({ data }: { data: PageBlocksContent }) => {
     ? 'prose prose-lg prose-invert'
     : 'prose prose-lg';
 
+  console.log("check if content has image", data.image, data.body);
   return (
-    <Section background={data.background!} className={proseClasses} data-tina-field={tinaField(data, 'body')}>
-      <TinaMarkdown
-        content={data.body}
-        components={{
-          mermaid: (props: any) => <Mermaid {...props} />,
-          scriptCopyBlock: (props: any) => <ScriptCopyBtn {...props} />,
-        }}
-      />
+    <Section background={data.background!}>
+      {data.image?.src ? (
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+          <div className={`${proseClasses} lg:col-span-3`} data-tina-field={tinaField(data, 'body')}>
+            <TinaMarkdown
+              content={data.body}
+              components={{
+                mermaid: (props: any) => <Mermaid {...props} />,
+                scriptCopyBlock: (props: any) => <ScriptCopyBtn {...props} />,
+              }}
+            />
+          </div>
+          <div className="lg:col-span-2 flex justify-center lg:justify-start">
+            <div className="w-full overflow-hidden rounded-lg shadow-lg sticky top-12">
+              <Image
+                className="w-full h-auto"
+                alt={data.image?.alt || "Image"}
+                src={data.image.src}
+                height={600}
+                width={600}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className={proseClasses} data-tina-field={tinaField(data, 'body')}>
+          <TinaMarkdown
+            content={data.body}
+            components={{
+              mermaid: (props: any) => <Mermaid {...props} />,
+              scriptCopyBlock: (props: any) => <ScriptCopyBtn {...props} />,
+            }}
+          />
+        </div>
+      )}
     </Section>
   );
 };
@@ -55,6 +84,23 @@ export const contentBlockSchema: Template = {
       label: 'Body',
       name: 'body',
       templates: [scriptCopyBlockSchema],
+    },
+    {
+      type: 'object',
+      label: 'Image',
+      name: 'image',
+      fields: [
+        {
+          name: 'src',
+          label: 'Image Source',
+          type: 'image',
+        },
+        {
+          name: 'alt',
+          label: 'Alt Text',
+          type: 'string',
+        },
+      ],
     },
   ],
 };
