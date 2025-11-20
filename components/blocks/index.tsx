@@ -1,5 +1,5 @@
 import { tinaField } from "tinacms/dist/react";
-import { Page, PageBlocks, PostConnectionQuery, TagConnectionQuery, PageBlocksFeatured, PageBlocksRecent, PageBlocksCategories, PageBlocksNewsletter, PageBlocksBlog_Grid } from "../../tina/__generated__/types";
+import { Page, PageBlocks, PostConnectionQuery, TagConnectionQuery, PageBlocksFeatured, PageBlocksRecent, PageBlocksCategories, PageBlocksRss, PageBlocksBlog_Grid } from "../../tina/__generated__/types";
 import { Hero } from "./hero";
 import { Content } from "./content";
 import { Features } from "./features";
@@ -12,10 +12,10 @@ import { FeaturedPost } from "./featured-post";
 import { RecentPosts } from "./recent-posts";
 import { BlogGrid } from "./blog-grid";
 import { CategoriesStrip } from "./categories-strip";
-import { NewsletterSignup } from "./newsletter-signup";
+import { RssFeed } from "./rss-feed";
 import { ImageBlock } from "./image";
 
-type ExtendedBlock = PageBlocks | PageBlocksFeatured | PageBlocksRecent | PageBlocksCategories | PageBlocksNewsletter | PageBlocksBlog_Grid;
+type ExtendedBlock = PageBlocks | PageBlocksFeatured | PageBlocksRecent | PageBlocksCategories | PageBlocksRss | PageBlocksBlog_Grid;
 
 export const Blocks = (props: Omit<Page, "id" | "_sys" | "_values"> & { extraPosts?: PostConnectionQuery; allTags?: TagConnectionQuery; searchQuery?: string; setSearchQuery?: (q: string) => void }) => {
   if (!props.blocks) return null;
@@ -68,8 +68,8 @@ const Block = (block: ExtendedBlock & { extraPosts?: PostConnectionQuery; allTag
       return block.extraPosts ? <BlogGrid data={block as PageBlocksBlog_Grid} extraPosts={block.extraPosts} allTags={block.allTags} searchQuery={block.searchQuery} /> : null;
     case "PageBlocksCategories":
       return <CategoriesStrip data={block as PageBlocksCategories} allTags={block.allTags} />;
-    case "PageBlocksNewsletter":
-      return <NewsletterSignup data={block as PageBlocksNewsletter} />;
+    case "PageBlocksRss":
+      return <RssFeed data={block as PageBlocksRss} />;
     case "PageBlocksImage":
       return <ImageBlock data={block as any} />;
     default:

@@ -11,7 +11,7 @@ import { featuredBlockSchema } from '@/components/blocks/featured-post';
 import { recentBlockSchema } from '@/components/blocks/recent-posts';
 import { blogGridBlockSchema } from '@/components/blocks/blog-grid';
 import { categoriesBlockSchema } from '@/components/blocks/categories-strip';
-import { newsletterBlockSchema } from '@/components/blocks/newsletter-signup';
+import { rssBlockSchema } from '@/components/blocks/rss-feed';
 import { imageBlockSchema } from '@/components/blocks/image';
 
 const Page: Collection = {
@@ -51,7 +51,7 @@ const Page: Collection = {
         recentBlockSchema,
         blogGridBlockSchema,
         categoriesBlockSchema,
-        newsletterBlockSchema,
+        rssBlockSchema,
       ],
     },
   ],

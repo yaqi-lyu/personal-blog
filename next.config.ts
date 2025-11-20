@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next'
- 
+
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["@vercel/turbopack-next"],
+  },
   images: {
     remotePatterns: [
       {
