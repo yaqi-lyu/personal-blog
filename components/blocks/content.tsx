@@ -27,7 +27,6 @@ export const Content = ({ data }: { data: PageBlocksContent }) => {
     ? 'prose prose-lg prose-invert'
     : 'prose prose-lg';
 
-  console.log("check if content has image", data.image, data.body);
   return (
     <Section background={data.background!}>
       {data.image?.src ? (
@@ -42,14 +41,21 @@ export const Content = ({ data }: { data: PageBlocksContent }) => {
             />
           </div>
           <div className="lg:col-span-2 flex justify-center lg:justify-start">
-            <div className="w-full overflow-hidden rounded-lg shadow-lg sticky top-12">
-              <Image
-                className="w-full h-auto"
-                alt={data.image?.alt || "Image"}
-                src={data.image.src}
-                height={600}
-                width={600}
-              />
+            <div className="w-full">
+              <div className="overflow-hidden rounded-lg shadow-lg sticky top-12">
+                <Image
+                  className="w-full h-auto"
+                  alt={data.image?.alt || "Image"}
+                  src={data.image.src}
+                  height={600}
+                  width={600}
+                />
+              </div>
+              {data.image?.caption && (
+                <p className="mt-4 text-center text-sm text-muted-foreground">
+                  {data.image.caption}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -99,6 +105,12 @@ export const contentBlockSchema: Template = {
           name: 'alt',
           label: 'Alt Text',
           type: 'string',
+        },
+        {
+          name: 'caption',
+          label: 'Caption',
+          type: 'string',
+          description: 'Optional caption to display below the image',
         },
       ],
     },
